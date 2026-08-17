@@ -7,6 +7,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { api, tokenStore } from "@/lib/api-client";
 import { PlanStatusBadge } from "@/components/plans/StatusBadge";
 import { ProgressBar } from "@/components/ProgressBar";
+import { formatDurationCompact } from "@/lib/format-duration";
 
 export default function PlansListPage() {
   const t = useTranslations();
@@ -58,6 +59,12 @@ export default function PlansListPage() {
               <ProgressBar percent={plan.progress.percent} />
               <p className="text-xs text-slate-500">
                 {t("plans.chaptersOf", { read: plan.progress.chaptersRead, total: plan.progress.chaptersTotal })}
+                {plan.progress.readingTimeSeconds > 0 && (
+                  <>
+                    {" · "}
+                    {t("plans.timeSpent", { duration: formatDurationCompact(plan.progress.readingTimeSeconds) })}
+                  </>
+                )}
                 {" · "}
                 {plan.startDate} → {plan.endDate}
               </p>

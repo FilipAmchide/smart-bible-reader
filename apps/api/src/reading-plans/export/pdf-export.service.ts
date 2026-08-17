@@ -20,9 +20,11 @@ export class PdfExportService {
           .replace("{percent}", String(plan.progress.percent))
           .replace("{read}", String(plan.progress.chaptersRead))
           .replace("{total}", String(plan.progress.chaptersTotal)),
-      )
-      .moveDown(1)
-      .fillColor("#000000");
+      );
+    if (plan.progress.readingTimeSeconds > 0) {
+      doc.text(labels.timeSpent.replace("{duration}", formatDuration(plan.progress.readingTimeSeconds)));
+    }
+    doc.moveDown(1).fillColor("#000000");
 
     for (const entry of plan.schedule) {
       const chaptersText = entry.chapters.length > 0 ? summarizeChapters(entry.chapters) : `(${labels.chapters}: —)`;

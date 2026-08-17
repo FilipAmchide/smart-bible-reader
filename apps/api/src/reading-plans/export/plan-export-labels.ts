@@ -4,6 +4,7 @@ export interface PlanExportLabels {
   title: string;
   period: string; // "Du {start} au {end}"
   progress: string; // "{percent}% terminé"
+  timeSpent: string; // "{duration} de lecture"
   date: string;
   chapters: string;
   status: string;
@@ -15,6 +16,7 @@ const FR: PlanExportLabels = {
   title: "Plan de lecture",
   period: "Du {start} au {end}",
   progress: "{percent} % terminé — {read}/{total} chapitres",
+  timeSpent: "{duration} de lecture",
   date: "Date",
   chapters: "Chapitres",
   status: "Statut",
@@ -26,6 +28,7 @@ const EN: PlanExportLabels = {
   title: "Reading plan",
   period: "From {start} to {end}",
   progress: "{percent}% done — {read}/{total} chapters",
+  timeSpent: "{duration} spent reading",
   date: "Date",
   chapters: "Chapters",
   status: "Status",
@@ -37,6 +40,7 @@ const ES: PlanExportLabels = {
   title: "Plan de lectura",
   period: "Del {start} al {end}",
   progress: "{percent}% completado — {read}/{total} capítulos",
+  timeSpent: "{duration} de lectura",
   date: "Fecha",
   chapters: "Capítulos",
   status: "Estado",
@@ -48,6 +52,7 @@ const DE: PlanExportLabels = {
   title: "Leseplan",
   period: "Vom {start} bis {end}",
   progress: "{percent}% erledigt — {read}/{total} Kapitel",
+  timeSpent: "{duration} gelesen",
   date: "Datum",
   chapters: "Kapitel",
   status: "Status",
@@ -59,6 +64,7 @@ const AR: PlanExportLabels = {
   title: "خطة القراءة",
   period: "من {start} إلى {end}",
   progress: "اكتمل {percent}٪ — {read}/{total} أصحاح",
+  timeSpent: "{duration} من القراءة",
   date: "التاريخ",
   chapters: "الأصحاحات",
   status: "الحالة",

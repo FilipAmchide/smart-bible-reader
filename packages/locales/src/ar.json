@@ -132,6 +132,7 @@
       "missed": "فائت"
     },
     "progress": "اكتمل {percent}٪",
+    "timeSpent": "{duration} من القراءة",
     "chaptersOf": "{read} / {total} أصحاح",
     "recalculate": "إعادة حساب الخطة",
     "recalculating": "جارٍ إعادة الحساب…",

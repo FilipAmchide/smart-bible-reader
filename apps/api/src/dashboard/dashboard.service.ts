@@ -73,6 +73,7 @@ export class DashboardService {
           chaptersRead,
           chaptersTotal: plan.totalChapters,
           percent: plan.totalChapters ? Math.round((chaptersRead / plan.totalChapters) * 100) : 0,
+          readingTimeSeconds: plan.schedule.reduce((sum, entry) => sum + (entry.readingDurationSeconds ?? 0), 0),
         },
       };
     };

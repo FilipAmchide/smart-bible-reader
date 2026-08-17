@@ -172,6 +172,8 @@ export interface ReadingPlanProgress {
   chaptersRead: number;
   chaptersTotal: number;
   percent: number;
+  /** Somme des temps de lecture déclarés sur l'ensemble du plan (voir ScheduleEntryView). */
+  readingTimeSeconds: number;
 }
 
 export interface ReadingPlanSummary {

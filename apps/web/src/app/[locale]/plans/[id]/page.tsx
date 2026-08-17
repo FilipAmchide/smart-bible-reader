@@ -110,6 +110,12 @@ export default function PlanDetailPage() {
           {t("plans.chaptersOf", { read: plan.progress.chaptersRead, total: plan.progress.chaptersTotal })}
           {" · "}
           {t("plans.progress", { percent: plan.progress.percent })}
+          {plan.progress.readingTimeSeconds > 0 && (
+            <>
+              {" · "}
+              {t("plans.timeSpent", { duration: formatDurationCompact(plan.progress.readingTimeSeconds) })}
+            </>
+          )}
         </p>
       </div>
 

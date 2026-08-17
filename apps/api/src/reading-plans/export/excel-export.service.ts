@@ -19,17 +19,23 @@ export class ExcelExportService {
       views: [{ rightToLeft: RTL_LANGUAGES.includes(language) }],
     });
 
-    sheet.mergeCells("A1:D1");
-    sheet.getCell("A1").value = plan.name || labels.title;
-    sheet.getCell("A1").font = { size: 16, bold: true };
+    const addMergedRow = (text: string, font?: Partial<ExcelJS.Font>) => {
+      const row = sheet.addRow([text]);
+      sheet.mergeCells(row.number, 1, row.number, 4);
+      if (font) row.getCell(1).font = font;
+    };
 
-    sheet.mergeCells("A2:D2");
-    sheet.getCell("A2").value = labels.period.replace("{start}", plan.startDate).replace("{end}", plan.endDate);
-    sheet.mergeCells("A3:D3");
-    sheet.getCell("A3").value = labels.progress
-      .replace("{percent}", String(plan.progress.percent))
-      .replace("{read}", String(plan.progress.chaptersRead))
-      .replace("{total}", String(plan.progress.chaptersTotal));
+    addMergedRow(plan.name || labels.title, { size: 16, bold: true });
+    addMergedRow(labels.period.replace("{start}", plan.startDate).replace("{end}", plan.endDate));
+    addMergedRow(
+      labels.progress
+        .replace("{percent}", String(plan.progress.percent))
+        .replace("{read}", String(plan.progress.chaptersRead))
+        .replace("{total}", String(plan.progress.chaptersTotal)),
+    );
+    if (plan.progress.readingTimeSeconds > 0) {
+      addMergedRow(labels.timeSpent.replace("{duration}", formatDuration(plan.progress.readingTimeSeconds)));
+    }
 
     const headerRow = sheet.addRow([labels.date, labels.chapters, labels.status, labels.duration]);
     headerRow.font = { bold: true };

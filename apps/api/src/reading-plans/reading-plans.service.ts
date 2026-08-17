@@ -266,6 +266,7 @@ export class ReadingPlansService {
         chaptersRead: readKeys.size,
         chaptersTotal: plan.totalChapters,
         percent: plan.totalChapters ? Math.round((readKeys.size / plan.totalChapters) * 100) : 0,
+        readingTimeSeconds: this.totalReadingTime(plan),
       },
       schedule,
     };
@@ -283,7 +284,12 @@ export class ReadingPlansService {
         chaptersRead,
         chaptersTotal: plan.totalChapters,
         percent: plan.totalChapters ? Math.round((chaptersRead / plan.totalChapters) * 100) : 0,
+        readingTimeSeconds: this.totalReadingTime(plan),
       },
     };
+  }
+
+  private totalReadingTime(plan: ReadingPlanDocument): number {
+    return plan.schedule.reduce((sum, entry) => sum + (entry.readingDurationSeconds ?? 0), 0);
   }
 }

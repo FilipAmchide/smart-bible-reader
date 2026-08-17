@@ -132,6 +132,7 @@
       "missed": "Perdido"
     },
     "progress": "{percent}% completado",
+    "timeSpent": "{duration} de lectura",
     "chaptersOf": "{read} / {total} capítulos",
     "recalculate": "Recalcular plan",
     "recalculating": "Recalculando…",
