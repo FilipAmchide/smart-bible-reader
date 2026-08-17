@@ -19,6 +19,8 @@
   },
   "nav": {
     "profile": "Profil",
+    "plans": "Plans",
+    "dashboard": "Tableau de bord",
     "logout": "Se déconnecter"
   },
   "auth": {
@@ -76,6 +78,7 @@
     "phone": "Téléphone",
     "language": "Langue de l'interface",
     "timezone": "Fuseau horaire",
+    "preferredVersion": "Version de lecture préférée",
     "security": "Sécurité",
     "twoFactorEnabled": "Double authentification activée",
     "twoFactorDisabled": "Double authentification désactivée",
@@ -90,6 +93,100 @@
     "oldTestament": "Ancien Testament",
     "newTestament": "Nouveau Testament",
     "chapters": "{count} chapitres"
+  },
+  "plans": {
+    "title": "Mes plans de lecture",
+    "newPlan": "Nouveau plan",
+    "empty": "Aucun plan de lecture pour l'instant.",
+    "backToList": "Retour aux plans",
+    "create": {
+      "title": "Créer un plan de lecture",
+      "name": "Nom du plan (optionnel)",
+      "namePlaceholder": "ex. Nouveau Testament en 90 jours",
+      "scope": "Périmètre",
+      "scopeOptions": {
+        "full_bible": "Bible entière",
+        "old_testament": "Ancien Testament",
+        "new_testament": "Nouveau Testament",
+        "prophets": "Les prophètes",
+        "psalms": "Psaumes",
+        "proverbs": "Proverbes",
+        "custom": "Sélection libre"
+      },
+      "pickBooks": "Choisir les livres",
+      "booksSelected": "{count} livre(s) sélectionné(s)",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "submit": "Créer le plan"
+    },
+    "status": {
+      "active": "Actif",
+      "completed": "Terminé",
+      "abandoned": "Abandonné"
+    },
+    "entryStatus": {
+      "pending": "À faire",
+      "partial": "Partiel",
+      "complete": "Terminé",
+      "rest": "Repos",
+      "missed": "Manqué"
+    },
+    "progress": "{percent} % terminé",
+    "chaptersOf": "{read} / {total} chapitres",
+    "recalculate": "Recalculer le plan",
+    "recalculating": "Recalcul en cours…",
+    "recalculated": "Plan recalculé",
+    "readOnline": "Lire en ligne",
+    "markRead": "Marquer comme lu",
+    "today": "Aujourd'hui",
+    "export": {
+      "pdf": "Télécharger en PDF",
+      "xlsx": "Télécharger en Excel",
+      "downloading": "Téléchargement…"
+    },
+    "duration": {
+      "label": "Temps de lecture",
+      "hours": "h",
+      "minutes": "min",
+      "save": "Enregistrer",
+      "saved": "Enregistré"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "streakCurrent": "Série actuelle",
+    "streakRecord": "Record",
+    "days": "jours",
+    "totalChaptersRead": "Chapitres lus au total",
+    "totalReadingTime": "Temps de lecture total",
+    "daysComplete": "Jours respectés",
+    "daysMissed": "Jours manqués",
+    "daysPartial": "Jours partiels",
+    "testamentSplit": "Ancien / Nouveau Testament",
+    "activity": "Activité (30 derniers jours)",
+    "activePlans": "Plans en cours",
+    "pastPlans": "Historique des plans",
+    "noPlans": "Aucun plan pour l'instant.",
+    "createFirstPlan": "Créer mon premier plan"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "channels": "Canaux",
+    "sms": "SMS",
+    "email": "Email",
+    "webPush": "Notifications navigateur",
+    "enablePush": "Activer sur cet appareil",
+    "disablePush": "Désactiver sur cet appareil",
+    "pushEnabled": "Notifications activées sur cet appareil",
+    "pushUnsupported": "Non pris en charge par ce navigateur",
+    "dailyReminderTime": "Heure du rappel quotidien",
+    "lateAlertTime": "Heure de l'alerte de retard",
+    "quietHours": "Heures calmes",
+    "quietHoursFrom": "De",
+    "quietHoursTo": "à",
+    "weeklySummary": "Résumé hebdomadaire",
+    "save": "Enregistrer",
+    "saved": "Préférences enregistrées"
   },
   "errors": {
     "invalidIdentifier": "Adresse email ou numéro de téléphone invalide.",

@@ -20,8 +20,10 @@ export interface AppConfig {
     issuer: string;
   };
   sms: {
-    transport: "console" | "provider";
-    apiKey: string;
+    transport: "console" | "twilio";
+    accountSid: string;
+    authToken: string;
+    fromNumber: string;
   };
   email: {
     transport: "console" | "smtp";
@@ -33,6 +35,16 @@ export interface AppConfig {
     smtpUser: string;
     smtpPassword: string;
     smtpSecure: boolean;
+  };
+  webPush: {
+    publicKey: string;
+    privateKey: string;
+    /** "mailto:" requis par la spec Web Push comme contact administrateur. */
+    contact: string;
+  };
+  scheduler: {
+    /** Fenêtre de tolérance (minutes) autour de l'heure programmée pour considérer un rappel "dû". */
+    windowMinutes: number;
   };
 }
 
@@ -60,8 +72,10 @@ export default (): { app: AppConfig } => ({
       issuer: process.env.TOTP_ISSUER ?? "Smart Bible Reader",
     },
     sms: {
-      transport: (process.env.SMS_TRANSPORT as "console" | "provider") ?? "console",
-      apiKey: process.env.SMS_PROVIDER_API_KEY ?? "",
+      transport: (process.env.SMS_TRANSPORT as "console" | "twilio") ?? "console",
+      accountSid: process.env.TWILIO_ACCOUNT_SID ?? "",
+      authToken: process.env.TWILIO_AUTH_TOKEN ?? "",
+      fromNumber: process.env.TWILIO_FROM_NUMBER ?? "",
     },
     email: {
       transport: (process.env.EMAIL_TRANSPORT as "console" | "smtp") ?? "console",
@@ -72,6 +86,14 @@ export default (): { app: AppConfig } => ({
       smtpUser: process.env.SMTP_USER ?? "",
       smtpPassword: process.env.SMTP_PASSWORD ?? "",
       smtpSecure: (process.env.SMTP_TLS ?? "true") === "true",
+    },
+    webPush: {
+      publicKey: process.env.VAPID_PUBLIC_KEY ?? "",
+      privateKey: process.env.VAPID_PRIVATE_KEY ?? "",
+      contact: process.env.VAPID_CONTACT_EMAIL ?? "mailto:contact@smartbiblereader.app",
+    },
+    scheduler: {
+      windowMinutes: parseInt(process.env.SCHEDULER_WINDOW_MINUTES ?? "15", 10),
     },
   },
 });

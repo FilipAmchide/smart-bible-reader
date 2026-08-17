@@ -6,6 +6,7 @@ import { BibleVersionService } from "../bible/bible-version.service";
 import { User, type UserDocument } from "./schemas/user.schema";
 import { toUserProfile } from "./user.mapper";
 import type { UpdateProfileDto } from "./dto/update-profile.dto";
+import type { UpdateNotificationSettingsDto } from "./dto/update-notification-settings.dto";
 
 @Injectable()
 export class UsersService {
@@ -33,6 +34,18 @@ export class UsersService {
       user.preferredVersionCode = dto.preferredVersionCode;
     }
 
+    await user.save();
+    return toUserProfile(user);
+  }
+
+  async updateNotificationSettings(
+    userId: string,
+    dto: UpdateNotificationSettingsDto,
+  ): Promise<UserProfile> {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException("Compte introuvable.");
+
+    Object.assign(user.notificationSettings, dto);
     await user.save();
     return toUserProfile(user);
   }

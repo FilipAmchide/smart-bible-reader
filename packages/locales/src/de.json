@@ -19,6 +19,8 @@
   },
   "nav": {
     "profile": "Profil",
+    "plans": "Pläne",
+    "dashboard": "Übersicht",
     "logout": "Abmelden"
   },
   "auth": {
@@ -76,6 +78,7 @@
     "phone": "Telefon",
     "language": "Sprache der Oberfläche",
     "timezone": "Zeitzone",
+    "preferredVersion": "Bevorzugte Lese-Version",
     "security": "Sicherheit",
     "twoFactorEnabled": "Zwei-Faktor-Authentifizierung aktiviert",
     "twoFactorDisabled": "Zwei-Faktor-Authentifizierung deaktiviert",
@@ -90,6 +93,100 @@
     "oldTestament": "Altes Testament",
     "newTestament": "Neues Testament",
     "chapters": "{count} Kapitel"
+  },
+  "plans": {
+    "title": "Meine Lesepläne",
+    "newPlan": "Neuer Plan",
+    "empty": "Noch keine Lesepläne.",
+    "backToList": "Zurück zu den Plänen",
+    "create": {
+      "title": "Leseplan erstellen",
+      "name": "Planname (optional)",
+      "namePlaceholder": "z. B. Neues Testament in 90 Tagen",
+      "scope": "Umfang",
+      "scopeOptions": {
+        "full_bible": "Ganze Bibel",
+        "old_testament": "Altes Testament",
+        "new_testament": "Neues Testament",
+        "prophets": "Die Propheten",
+        "psalms": "Psalmen",
+        "proverbs": "Sprüche",
+        "custom": "Eigene Auswahl"
+      },
+      "pickBooks": "Bücher auswählen",
+      "booksSelected": "{count} Buch/Bücher ausgewählt",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "submit": "Plan erstellen"
+    },
+    "status": {
+      "active": "Aktiv",
+      "completed": "Abgeschlossen",
+      "abandoned": "Abgebrochen"
+    },
+    "entryStatus": {
+      "pending": "Ausstehend",
+      "partial": "Teilweise",
+      "complete": "Erledigt",
+      "rest": "Pause",
+      "missed": "Verpasst"
+    },
+    "progress": "{percent}% erledigt",
+    "chaptersOf": "{read} / {total} Kapitel",
+    "recalculate": "Plan neu berechnen",
+    "recalculating": "Wird neu berechnet…",
+    "recalculated": "Plan neu berechnet",
+    "readOnline": "Online lesen",
+    "markRead": "Als gelesen markieren",
+    "today": "Heute",
+    "export": {
+      "pdf": "Als PDF herunterladen",
+      "xlsx": "Als Excel herunterladen",
+      "downloading": "Wird heruntergeladen…"
+    },
+    "duration": {
+      "label": "Lesezeit",
+      "hours": "Std",
+      "minutes": "Min",
+      "save": "Speichern",
+      "saved": "Gespeichert"
+    }
+  },
+  "dashboard": {
+    "title": "Übersicht",
+    "streakCurrent": "Aktuelle Serie",
+    "streakRecord": "Rekord",
+    "days": "Tage",
+    "totalChaptersRead": "Insgesamt gelesene Kapitel",
+    "totalReadingTime": "Gesamte Lesezeit",
+    "daysComplete": "Eingehaltene Tage",
+    "daysMissed": "Verpasste Tage",
+    "daysPartial": "Teilweise erledigte Tage",
+    "testamentSplit": "Altes / Neues Testament",
+    "activity": "Aktivität (letzte 30 Tage)",
+    "activePlans": "Laufende Pläne",
+    "pastPlans": "Planverlauf",
+    "noPlans": "Noch keine Pläne.",
+    "createFirstPlan": "Meinen ersten Plan erstellen"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "channels": "Kanäle",
+    "sms": "SMS",
+    "email": "E-Mail",
+    "webPush": "Browser-Benachrichtigungen",
+    "enablePush": "Auf diesem Gerät aktivieren",
+    "disablePush": "Auf diesem Gerät deaktivieren",
+    "pushEnabled": "Benachrichtigungen auf diesem Gerät aktiviert",
+    "pushUnsupported": "Von diesem Browser nicht unterstützt",
+    "dailyReminderTime": "Uhrzeit der täglichen Erinnerung",
+    "lateAlertTime": "Uhrzeit der Verspätungswarnung",
+    "quietHours": "Ruhezeiten",
+    "quietHoursFrom": "Von",
+    "quietHoursTo": "bis",
+    "weeklySummary": "Wöchentliche Zusammenfassung",
+    "save": "Speichern",
+    "saved": "Einstellungen gespeichert"
   },
   "errors": {
     "invalidIdentifier": "Ungültige E-Mail-Adresse oder Telefonnummer.",

@@ -32,6 +32,11 @@ export class ScheduleEntrySchemaClass {
 
   @Prop()
   completedAt?: Date;
+
+  /** Cumulé à chaque appel de markRead qui fournit une durée — voir la note
+   * sur ScheduleEntryView (temps déclaré, pas mesuré automatiquement). */
+  @Prop({ default: 0 })
+  readingDurationSeconds!: number;
 }
 export const ScheduleEntrySchema = SchemaFactory.createForClass(ScheduleEntrySchemaClass);
 

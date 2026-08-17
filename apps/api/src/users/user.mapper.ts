@@ -18,6 +18,7 @@ export function toUserProfile(user: UserDocument): UserProfile {
       emailEnabled: user.notificationSettings.emailEnabled,
       webPushEnabled: user.notificationSettings.webPushEnabled,
       dailyReminderTime: user.notificationSettings.dailyReminderTime,
+      lateAlertTime: user.notificationSettings.lateAlertTime,
       quietHoursStart: user.notificationSettings.quietHoursStart,
       quietHoursEnd: user.notificationSettings.quietHoursEnd,
       weeklySummary: user.notificationSettings.weeklySummary,

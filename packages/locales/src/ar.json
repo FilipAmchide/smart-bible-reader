@@ -1,0 +1,199 @@
+{
+  "common": {
+    "appName": "Smart Bible Reader",
+    "tagline": "خطّط لقراءة الكتاب المقدس وحافظ عليها وتابع تقدّمك.",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "back": "رجوع",
+    "loading": "جارٍ التحميل…",
+    "comingSoon": "قريبًا"
+  },
+  "languages": {
+    "fr": "الفرنسية",
+    "en": "الإنجليزية",
+    "es": "الإسبانية",
+    "de": "الألمانية",
+    "ar": "العربية",
+    "bas": "الباسا"
+  },
+  "nav": {
+    "profile": "الملف الشخصي",
+    "plans": "الخطط",
+    "dashboard": "لوحة التحكم",
+    "logout": "تسجيل الخروج"
+  },
+  "auth": {
+    "register": {
+      "title": "إنشاء حساب",
+      "subtitle": "يكفي بريد إلكتروني أو رقم هاتف للبدء.",
+      "fullName": "الاسم الكامل",
+      "identifier": "البريد الإلكتروني أو الهاتف",
+      "password": "كلمة المرور (اختياري)",
+      "passwordHint": "بدون كلمة مرور، ستسجّل الدخول برمز لمرة واحدة فقط.",
+      "submit": "إنشاء حسابي",
+      "hasAccount": "هل لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول"
+    },
+    "login": {
+      "title": "تسجيل الدخول",
+      "identifier": "البريد الإلكتروني أو الهاتف",
+      "withOtp": "استلام رمز",
+      "orDivider": "أو",
+      "password": "كلمة المرور",
+      "withPassword": "تسجيل الدخول بكلمة المرور",
+      "noAccount": "ليس لديك حساب بعد؟",
+      "register": "إنشاء حساب"
+    },
+    "otp": {
+      "title": "رمز التحقق",
+      "sentTo": "تم إرسال رمز إلى {identifier}",
+      "code": "رمز مكوّن من 6 أرقام",
+      "verify": "تحقّق",
+      "resend": "إعادة إرسال الرمز",
+      "resendIn": "إعادة الإرسال خلال {seconds} ثانية",
+      "changeIdentifier": "استخدام معرّف آخر"
+    },
+    "twoFactor": {
+      "title": "التحقّق بخطوتين",
+      "subtitle": "أدخل الرمز الذي يولّده تطبيق المصادقة الخاص بك.",
+      "code": "رمز مكوّن من 6 أرقام",
+      "verify": "تحقّق",
+      "useBackupCode": "استخدام رمز احتياطي",
+      "setupTitle": "تفعيل المصادقة الثنائية",
+      "setupSubtitle": "امسح هذا الرمز باستخدام Google Authenticator أو Authy أو تطبيق مماثل.",
+      "manualEntry": "أو أدخل هذا المفتاح يدويًا",
+      "confirmCode": "رمز التأكيد",
+      "enable": "تفعيل",
+      "backupCodesTitle": "رموزك الاحتياطية",
+      "backupCodesHint": "احتفظ بها في مكان آمن: لن تظهر إلا مرة واحدة.",
+      "backupCodesDone": "لقد قمت بحفظها"
+    }
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "identity": "الهوية",
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "language": "لغة الواجهة",
+    "timezone": "المنطقة الزمنية",
+    "preferredVersion": "نسخة القراءة المفضّلة",
+    "security": "الأمان",
+    "twoFactorEnabled": "المصادقة الثنائية مفعّلة",
+    "twoFactorDisabled": "المصادقة الثنائية معطّلة",
+    "enable2fa": "تفعيل المصادقة الثنائية",
+    "disable2fa": "تعطيل",
+    "changePassword": "تغيير كلمة المرور",
+    "saveChanges": "حفظ التغييرات",
+    "saved": "تم تحديث الملف الشخصي"
+  },
+  "bible": {
+    "books": "أسفار الكتاب المقدس",
+    "oldTestament": "العهد القديم",
+    "newTestament": "العهد الجديد",
+    "chapters": "{count} أصحاح"
+  },
+  "plans": {
+    "title": "خطط القراءة الخاصة بي",
+    "newPlan": "خطة جديدة",
+    "empty": "لا توجد خطط قراءة حتى الآن.",
+    "backToList": "العودة إلى الخطط",
+    "create": {
+      "title": "إنشاء خطة قراءة",
+      "name": "اسم الخطة (اختياري)",
+      "namePlaceholder": "مثال: العهد الجديد في 90 يومًا",
+      "scope": "النطاق",
+      "scopeOptions": {
+        "full_bible": "الكتاب المقدس كاملًا",
+        "old_testament": "العهد القديم",
+        "new_testament": "العهد الجديد",
+        "prophets": "الأنبياء",
+        "psalms": "المزامير",
+        "proverbs": "الأمثال",
+        "custom": "اختيار حرّ"
+      },
+      "pickBooks": "اختيار الأسفار",
+      "booksSelected": "تم اختيار {count} سفر (أسفار)",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "submit": "إنشاء الخطة"
+    },
+    "status": {
+      "active": "نشطة",
+      "completed": "مكتملة",
+      "abandoned": "متوقفة"
+    },
+    "entryStatus": {
+      "pending": "لم تُنجز بعد",
+      "partial": "جزئي",
+      "complete": "مكتمل",
+      "rest": "راحة",
+      "missed": "فائت"
+    },
+    "progress": "اكتمل {percent}٪",
+    "chaptersOf": "{read} / {total} أصحاح",
+    "recalculate": "إعادة حساب الخطة",
+    "recalculating": "جارٍ إعادة الحساب…",
+    "recalculated": "تمّت إعادة حساب الخطة",
+    "readOnline": "القراءة عبر الإنترنت",
+    "markRead": "وضع علامة كمقروء",
+    "today": "اليوم",
+    "export": {
+      "pdf": "تنزيل بصيغة PDF",
+      "xlsx": "تنزيل بصيغة Excel",
+      "downloading": "جارٍ التنزيل…"
+    },
+    "duration": {
+      "label": "مدة القراءة",
+      "hours": "س",
+      "minutes": "د",
+      "save": "حفظ",
+      "saved": "تم الحفظ"
+    }
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "streakCurrent": "السلسلة الحالية",
+    "streakRecord": "الرقم القياسي",
+    "days": "أيام",
+    "totalChaptersRead": "إجمالي الأصحاحات المقروءة",
+    "totalReadingTime": "إجمالي وقت القراءة",
+    "daysComplete": "الأيام الملتزم بها",
+    "daysMissed": "الأيام الفائتة",
+    "daysPartial": "الأيام الجزئية",
+    "testamentSplit": "العهد القديم / العهد الجديد",
+    "activity": "النشاط (آخر 30 يومًا)",
+    "activePlans": "الخطط الجارية",
+    "pastPlans": "سجلّ الخطط",
+    "noPlans": "لا توجد خطط حتى الآن.",
+    "createFirstPlan": "إنشاء أول خطة لي"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "channels": "القنوات",
+    "sms": "رسالة نصية",
+    "email": "البريد الإلكتروني",
+    "webPush": "إشعارات المتصفح",
+    "enablePush": "تفعيل على هذا الجهاز",
+    "disablePush": "تعطيل على هذا الجهاز",
+    "pushEnabled": "الإشعارات مفعّلة على هذا الجهاز",
+    "pushUnsupported": "غير مدعوم من هذا المتصفح",
+    "dailyReminderTime": "وقت التذكير اليومي",
+    "lateAlertTime": "وقت تنبيه التأخير",
+    "quietHours": "ساعات الهدوء",
+    "quietHoursFrom": "من",
+    "quietHoursTo": "إلى",
+    "weeklySummary": "الملخّص الأسبوعي",
+    "save": "حفظ",
+    "saved": "تم حفظ التفضيلات"
+  },
+  "errors": {
+    "invalidIdentifier": "عنوان البريد الإلكتروني أو رقم الهاتف غير صالح.",
+    "invalidCode": "رمز غير صالح أو منتهي الصلاحية.",
+    "invalidCredentials": "المعرّف أو كلمة المرور غير صحيحة.",
+    "identifierTaken": "هذا البريد الإلكتروني أو رقم الهاتف مستخدم بالفعل.",
+    "genericError": "حدث خطأ ما. يُرجى المحاولة مرة أخرى.",
+    "networkError": "تعذّر الاتصال بالخادم."
+  }
+}

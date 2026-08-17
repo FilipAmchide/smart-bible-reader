@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import type { UserProfile } from "@sbr/shared-types";
+import type { BibleVersion, UserProfile } from "@sbr/shared-types";
 import { useRouter } from "@/i18n/navigation";
 import { api, ApiError, tokenStore } from "@/lib/api-client";
 import { locales, localeLabels, type AppLocale } from "@/i18n/config";
 import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
+import { NotificationSettingsPanel } from "@/components/profile/NotificationSettingsPanel";
 
 export default function ProfilePage() {
   const t = useTranslations();
@@ -15,6 +16,8 @@ export default function ProfilePage() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [fullName, setFullName] = useState("");
   const [language, setLanguage] = useState<AppLocale>("fr");
+  const [versions, setVersions] = useState<BibleVersion[]>([]);
+  const [preferredVersionCode, setPreferredVersionCode] = useState("");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,6 +32,7 @@ export default function ProfilePage() {
       .then((profile) => {
         setUser(profile);
         setFullName(profile.fullName);
+        setPreferredVersionCode(profile.preferredVersionCode ?? "");
         if ((locales as readonly string[]).includes(profile.language)) {
           setLanguage(profile.language as AppLocale);
         }
@@ -37,6 +41,7 @@ export default function ProfilePage() {
         tokenStore.clear();
         router.replace("/login");
       });
+    api.listBibleVersions().then(setVersions).catch(() => setVersions([]));
   }, [router]);
 
   async function onSave() {
@@ -44,7 +49,11 @@ export default function ProfilePage() {
     setSaved(false);
     setError(null);
     try {
-      const updated = await api.updateProfile({ fullName, language });
+      const updated = await api.updateProfile({
+        fullName,
+        language,
+        preferredVersionCode: preferredVersionCode || undefined,
+      });
       setUser(updated);
       setSaved(true);
     } catch (err) {
@@ -76,7 +85,7 @@ export default function ProfilePage() {
         <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
           {t("profile.identity")}
         </h2>
-        <label className="block text-left">
+        <label className="block text-start">
           <span className="mb-1 block text-sm font-medium text-ink">{t("profile.fullName")}</span>
           <input
             value={fullName}
@@ -94,7 +103,7 @@ export default function ProfilePage() {
             {t("profile.phone")}: <span className="text-ink">{user.phone}</span>
           </p>
         )}
-        <label className="block text-left">
+        <label className="block text-start">
           <span className="mb-1 block text-sm font-medium text-ink">{t("profile.language")}</span>
           <select
             value={language}
@@ -104,6 +113,21 @@ export default function ProfilePage() {
             {locales.map((l) => (
               <option key={l} value={l}>
                 {localeLabels[l]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block text-start">
+          <span className="mb-1 block text-sm font-medium text-ink">{t("profile.preferredVersion")}</span>
+          <select
+            value={preferredVersionCode}
+            onChange={(e) => setPreferredVersionCode(e.target.value)}
+            className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-ink"
+          >
+            <option value="">—</option>
+            {versions.map((v) => (
+              <option key={v.code} value={v.code}>
+                {v.name} ({v.language})
               </option>
             ))}
           </select>
@@ -128,6 +152,16 @@ export default function ProfilePage() {
           {t("profile.security")}
         </h2>
         <TwoFactorPanel user={user} onChange={setUser} />
+      </section>
+
+      <section className="space-y-4 rounded-xl border border-slate-200 p-4">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          {t("notifications.title")}
+        </h2>
+        <NotificationSettingsPanel
+          settings={user.notificationSettings}
+          onChange={(notificationSettings) => setUser({ ...user, notificationSettings })}
+        />
       </section>
     </div>
   );

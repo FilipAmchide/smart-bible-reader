@@ -6,15 +6,16 @@
 
 export type Role = "user" | "admin";
 
-/** Langues d'interface. `ar` et `bas` sont modélisées dès la phase 1
- * (RTL / filière de traduction humaine) mais pas encore couvertes de contenu. */
+/** Langues d'interface. `bas` est modélisée dès la phase 1 (filière de
+ * traduction humaine dédiée, §07 du cahier des charges) mais pas encore
+ * couverte de contenu — voir PLANNED_LANGUAGES. */
 export type Language = "fr" | "en" | "es" | "de" | "ar" | "bas";
 
-/** Langues avec une couverture de traduction complète en phase 1. */
-export const SUPPORTED_LANGUAGES: Language[] = ["fr", "en", "es", "de"];
+/** Langues avec une couverture de traduction complète, routables dans l'app. */
+export const SUPPORTED_LANGUAGES: Language[] = ["fr", "en", "es", "de", "ar"];
 
-/** Langues prévues mais dont le contenu arrive après la phase 1. */
-export const PLANNED_LANGUAGES: Language[] = ["ar", "bas"];
+/** Langues prévues mais dont le contenu arrive plus tard (traduction humaine requise). */
+export const PLANNED_LANGUAGES: Language[] = ["bas"];
 
 export const RTL_LANGUAGES: Language[] = ["ar"];
 
@@ -57,6 +58,8 @@ export interface NotificationSettings {
   webPushEnabled: boolean;
   /** Format "HH:mm", interprété dans le fuseau horaire de l'utilisateur. */
   dailyReminderTime: string;
+  /** Heure limite au-delà de laquelle une lecture du jour non marquée déclenche une alerte de retard. */
+  lateAlertTime: string;
   quietHoursStart: string;
   quietHoursEnd: string;
   weeklySummary: boolean;
@@ -67,6 +70,7 @@ export const DEFAULT_NOTIFICATION_SETTINGS: NotificationSettings = {
   emailEnabled: true,
   webPushEnabled: false,
   dailyReminderTime: "06:30",
+  lateAlertTime: "20:00",
   quietHoursStart: "21:00",
   quietHoursEnd: "06:00",
   weeklySummary: true,
@@ -156,6 +160,12 @@ export interface ScheduleEntryView {
   date: string; // "YYYY-MM-DD"
   status: EffectiveEntryStatus;
   chapters: ChapterView[];
+  /** Temps de lecture cumulé pour ce jour (0 si jamais renseigné). Toujours une saisie
+   * manuelle de l'utilisateur — "j'ai mis XX minutes/heures" après coup — jamais mesuré
+   * automatiquement : SBR ne contrôle pas la page de lecture externe (§2.4) et ne peut
+   * donc pas savoir quand la lecture a réellement commencé ou fini (voir
+   * ReadingDurationInput côté web). */
+  readingDurationSeconds: number;
 }
 
 export interface ReadingPlanProgress {
@@ -177,4 +187,63 @@ export interface ReadingPlanSummary {
 export interface ReadingPlanDetail extends ReadingPlanSummary {
   bookCodes: string[];
   schedule: ScheduleEntryView[];
+}
+
+// ---------------------------------------------------------------------------
+// Dashboard & séries (phase 3)
+// ---------------------------------------------------------------------------
+
+export interface StreakInfo {
+  /** Jours consécutifs jusqu'à aujourd'hui inclus (ou hier si rien lu aujourd'hui). */
+  current: number;
+  /** Record personnel, toutes périodes confondues. */
+  record: number;
+}
+
+export interface TestamentSplit {
+  oldTestament: number;
+  newTestament: number;
+}
+
+export interface DashboardActivityPoint {
+  date: string; // "YYYY-MM-DD"
+  chaptersRead: number;
+}
+
+export interface DashboardSummary {
+  streak: StreakInfo;
+  totalChaptersRead: number;
+  /** Somme des temps de lecture déclarés (0 si l'utilisateur n'a jamais renseigné de durée). */
+  totalReadingTimeSeconds: number;
+  /** Entrées de planning, tous plans confondus, par statut effectif. */
+  daysComplete: number;
+  daysMissed: number;
+  daysPartial: number;
+  testamentSplit: TestamentSplit;
+  /** Activité des 30 derniers jours, un point par jour (0 inclus). */
+  activity: DashboardActivityPoint[];
+  activePlans: ReadingPlanSummary[];
+  pastPlans: ReadingPlanSummary[];
+}
+
+// ---------------------------------------------------------------------------
+// Notifications sortantes (phase 3)
+// ---------------------------------------------------------------------------
+
+export type NotificationChannel = "sms" | "email" | "web_push";
+
+export type NotificationType =
+  | "daily_reminder"
+  | "late_alert"
+  | "weekly_summary"
+  | "milestone"
+  | "broadcast";
+
+/** Abonnement Web Push tel que renvoyé par `PushSubscription.toJSON()` côté navigateur. */
+export interface PushSubscriptionPayload {
+  endpoint: string;
+  keys: {
+    p256dh: string;
+    auth: string;
+  };
 }

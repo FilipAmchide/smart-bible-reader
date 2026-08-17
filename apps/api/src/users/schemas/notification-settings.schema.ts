@@ -16,6 +16,9 @@ export class NotificationSettings {
   @Prop({ default: DEFAULT_NOTIFICATION_SETTINGS.dailyReminderTime })
   dailyReminderTime!: string;
 
+  @Prop({ default: DEFAULT_NOTIFICATION_SETTINGS.lateAlertTime })
+  lateAlertTime!: string;
+
   @Prop({ default: DEFAULT_NOTIFICATION_SETTINGS.quietHoursStart })
   quietHoursStart!: string;
 

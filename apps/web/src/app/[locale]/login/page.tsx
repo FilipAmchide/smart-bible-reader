@@ -31,7 +31,7 @@ export default function LoginPage() {
     }
     if (result.tokens) {
       tokenStore.set(result.tokens.accessToken, result.tokens.refreshToken);
-      router.replace("/profile");
+      router.replace("/dashboard");
     }
   }
 
@@ -79,7 +79,7 @@ export default function LoginPage() {
         useBackupCode ? { backupCode: totpCode } : { code: totpCode },
       );
       tokenStore.set(tokens.accessToken, tokens.refreshToken);
-      router.replace("/profile");
+      router.replace("/dashboard");
     });
   }
 
@@ -130,7 +130,7 @@ export default function LoginPage() {
 
       {mode === "otp" && step === "form" && (
         <form onSubmit={onRequestOtp} className="space-y-4">
-          <label className="block text-left">
+          <label className="block text-start">
             <span className="mb-1 block text-sm font-medium text-ink">{t("auth.login.identifier")}</span>
             <input
               required
@@ -194,7 +194,7 @@ export default function LoginPage() {
 
       {mode === "password" && (
         <form onSubmit={onPasswordLogin} className="space-y-4">
-          <label className="block text-left">
+          <label className="block text-start">
             <span className="mb-1 block text-sm font-medium text-ink">{t("auth.login.identifier")}</span>
             <input
               required
@@ -203,7 +203,7 @@ export default function LoginPage() {
               className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-ink outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
             />
           </label>
-          <label className="block text-left">
+          <label className="block text-start">
             <span className="mb-1 block text-sm font-medium text-ink">{t("auth.login.password")}</span>
             <input
               required

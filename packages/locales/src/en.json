@@ -19,6 +19,8 @@
   },
   "nav": {
     "profile": "Profile",
+    "plans": "Plans",
+    "dashboard": "Dashboard",
     "logout": "Log out"
   },
   "auth": {
@@ -76,6 +78,7 @@
     "phone": "Phone",
     "language": "Interface language",
     "timezone": "Timezone",
+    "preferredVersion": "Preferred reading version",
     "security": "Security",
     "twoFactorEnabled": "Two-factor authentication enabled",
     "twoFactorDisabled": "Two-factor authentication disabled",
@@ -90,6 +93,100 @@
     "oldTestament": "Old Testament",
     "newTestament": "New Testament",
     "chapters": "{count} chapters"
+  },
+  "plans": {
+    "title": "My reading plans",
+    "newPlan": "New plan",
+    "empty": "No reading plans yet.",
+    "backToList": "Back to plans",
+    "create": {
+      "title": "Create a reading plan",
+      "name": "Plan name (optional)",
+      "namePlaceholder": "e.g. New Testament in 90 days",
+      "scope": "Scope",
+      "scopeOptions": {
+        "full_bible": "Whole Bible",
+        "old_testament": "Old Testament",
+        "new_testament": "New Testament",
+        "prophets": "The Prophets",
+        "psalms": "Psalms",
+        "proverbs": "Proverbs",
+        "custom": "Custom selection"
+      },
+      "pickBooks": "Choose books",
+      "booksSelected": "{count} book(s) selected",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "submit": "Create plan"
+    },
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "abandoned": "Abandoned"
+    },
+    "entryStatus": {
+      "pending": "To do",
+      "partial": "Partial",
+      "complete": "Done",
+      "rest": "Rest",
+      "missed": "Missed"
+    },
+    "progress": "{percent}% done",
+    "chaptersOf": "{read} / {total} chapters",
+    "recalculate": "Recalculate plan",
+    "recalculating": "Recalculating…",
+    "recalculated": "Plan recalculated",
+    "readOnline": "Read online",
+    "markRead": "Mark as read",
+    "today": "Today",
+    "export": {
+      "pdf": "Download as PDF",
+      "xlsx": "Download as Excel",
+      "downloading": "Downloading…"
+    },
+    "duration": {
+      "label": "Reading time",
+      "hours": "h",
+      "minutes": "min",
+      "save": "Save",
+      "saved": "Saved"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "streakCurrent": "Current streak",
+    "streakRecord": "Record",
+    "days": "days",
+    "totalChaptersRead": "Total chapters read",
+    "totalReadingTime": "Total reading time",
+    "daysComplete": "Days on track",
+    "daysMissed": "Days missed",
+    "daysPartial": "Partial days",
+    "testamentSplit": "Old / New Testament",
+    "activity": "Activity (last 30 days)",
+    "activePlans": "Active plans",
+    "pastPlans": "Plan history",
+    "noPlans": "No plans yet.",
+    "createFirstPlan": "Create my first plan"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "channels": "Channels",
+    "sms": "SMS",
+    "email": "Email",
+    "webPush": "Browser notifications",
+    "enablePush": "Enable on this device",
+    "disablePush": "Disable on this device",
+    "pushEnabled": "Notifications enabled on this device",
+    "pushUnsupported": "Not supported by this browser",
+    "dailyReminderTime": "Daily reminder time",
+    "lateAlertTime": "Late alert time",
+    "quietHours": "Quiet hours",
+    "quietHoursFrom": "From",
+    "quietHoursTo": "to",
+    "weeklySummary": "Weekly summary",
+    "save": "Save",
+    "saved": "Preferences saved"
   },
   "errors": {
     "invalidIdentifier": "Invalid email address or phone number.",

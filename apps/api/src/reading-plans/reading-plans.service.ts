@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import type {
   ChapterView,
-  EffectiveEntryStatus,
+  Language,
   ReadingPlanDetail,
   ReadingPlanSummary,
   ReadingScopeType,
@@ -19,6 +19,7 @@ import {
   expandRange,
   resolveScopeBooks,
 } from "./plan-generator.util";
+import { effectiveEntryStatus } from "./schedule-status.util";
 import type { CreateReadingPlanDto } from "./dto/create-reading-plan.dto";
 import type { MarkReadDto } from "./dto/mark-read.dto";
 import { ReadingLog, type ReadingLogDocument } from "./schemas/reading-log.schema";
@@ -99,11 +100,23 @@ export class ReadingPlansService {
     return this.toDetail(plan, userId);
   }
 
+  /** Vue détaillée + langue de l'utilisateur — pour les exports PDF/Excel (§ export). */
+  async findOneForExport(userId: string, planId: string): Promise<{ detail: ReadingPlanDetail; language: Language }> {
+    const plan = await this.getOwnedPlan(userId, planId);
+    const [detail, user] = await Promise.all([this.toDetail(plan, userId), this.userModel.findById(userId)]);
+    return { detail, language: user?.language ?? "fr" };
+  }
+
   // ---------------------------------------------------------------------
   // Marquage de lecture
   // ---------------------------------------------------------------------
 
   async markRead(userId: string, planId: string, dateStr: string, dto: MarkReadDto): Promise<ReadingPlanDetail> {
+    const chapters = dto.chapters ?? [];
+    if (chapters.length === 0 && dto.durationSeconds === undefined) {
+      throw new BadRequestException("Fournissez au moins des chapitres lus ou une durée de lecture.");
+    }
+
     const plan = await this.getOwnedPlan(userId, planId);
     const entry = plan.schedule.find((e) => formatDateOnly(e.date) === dateStr);
     if (!entry) throw new NotFoundException("Aucune entrée de planning à cette date pour ce plan.");
@@ -111,7 +124,7 @@ export class ReadingPlansService {
     const assignedUnits = entry.chapters.flatMap(expandRange);
     const assignedKeys = new Set(assignedUnits.map(chapterKey));
 
-    for (const ref of dto.chapters) {
+    for (const ref of chapters) {
       const key = chapterKey({ bookCode: ref.bookCode.toUpperCase(), chapter: ref.chapter });
       if (!assignedKeys.has(key)) {
         throw new BadRequestException(
@@ -120,26 +133,32 @@ export class ReadingPlansService {
       }
     }
 
-    await Promise.all(
-      dto.chapters.map((ref) =>
-        this.logModel.updateOne(
-          { userId: plan.userId, planId: plan._id, bookCode: ref.bookCode.toUpperCase(), chapter: ref.chapter },
-          { $setOnInsert: { readAt: new Date() } },
-          { upsert: true },
+    if (chapters.length > 0) {
+      await Promise.all(
+        chapters.map((ref) =>
+          this.logModel.updateOne(
+            { userId: plan.userId, planId: plan._id, bookCode: ref.bookCode.toUpperCase(), chapter: ref.chapter },
+            { $setOnInsert: { readAt: new Date() } },
+            { upsert: true },
+          ),
         ),
-      ),
-    );
+      );
 
-    const readInEntry = await this.logModel.countDocuments({
-      userId: plan.userId,
-      planId: plan._id,
-      $or: assignedUnits.map((u) => ({ bookCode: u.bookCode, chapter: u.chapter })),
-    });
-    entry.status = readInEntry === 0 ? "pending" : readInEntry === assignedUnits.length ? "complete" : "partial";
-    entry.completedAt = entry.status === "complete" ? new Date() : undefined;
+      const readInEntry = await this.logModel.countDocuments({
+        userId: plan.userId,
+        planId: plan._id,
+        $or: assignedUnits.map((u) => ({ bookCode: u.bookCode, chapter: u.chapter })),
+      });
+      entry.status = readInEntry === 0 ? "pending" : readInEntry === assignedUnits.length ? "complete" : "partial";
+      entry.completedAt = entry.status === "complete" ? new Date() : undefined;
 
-    const totalRead = await this.logModel.countDocuments({ userId: plan.userId, planId: plan._id });
-    plan.status = totalRead >= plan.totalChapters ? "completed" : "active";
+      const totalRead = await this.logModel.countDocuments({ userId: plan.userId, planId: plan._id });
+      plan.status = totalRead >= plan.totalChapters ? "completed" : "active";
+    }
+
+    if (dto.durationSeconds !== undefined) {
+      entry.readingDurationSeconds = (entry.readingDurationSeconds ?? 0) + dto.durationSeconds;
+    }
 
     await plan.save();
     return this.toDetail(plan, userId);
@@ -227,7 +246,12 @@ export class ReadingPlansService {
           readingUrl: version ? this.bibleVersionService.buildLink(version, unit.bookCode, unit.chapter) : null,
         })),
       );
-      return { date: formatDateOnly(entry.date), status: this.effectiveStatus(entry, today), chapters };
+      return {
+        date: formatDateOnly(entry.date),
+        status: effectiveEntryStatus(entry, today),
+        chapters,
+        readingDurationSeconds: entry.readingDurationSeconds ?? 0,
+      };
     });
 
     return {
@@ -261,12 +285,5 @@ export class ReadingPlansService {
         percent: plan.totalChapters ? Math.round((chaptersRead / plan.totalChapters) * 100) : 0,
       },
     };
-  }
-
-  private effectiveStatus(entry: ScheduleEntrySchemaClass, today: Date): EffectiveEntryStatus {
-    if ((entry.status === "pending" || entry.status === "partial") && entry.date.getTime() < today.getTime()) {
-      return "missed";
-    }
-    return entry.status;
   }
 }

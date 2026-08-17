@@ -1,4 +1,12 @@
-import type { UserProfile } from "@sbr/shared-types";
+import type {
+  BibleVersion,
+  DashboardSummary,
+  NotificationSettings,
+  ReadingPlanDetail,
+  ReadingPlanSummary,
+  ReadingScopeType,
+  UserProfile,
+} from "@sbr/shared-types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
@@ -32,7 +40,7 @@ export const tokenStore = {
 };
 
 interface RequestOptions {
-  method?: "GET" | "POST" | "PATCH";
+  method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: unknown;
   auth?: boolean;
 }
@@ -73,6 +81,35 @@ export interface FirstFactorResult {
   preAuthToken?: string;
   tokens?: TokenPair;
   user?: UserProfile;
+}
+
+/**
+ * Les exports PDF/Excel exigent le jeton d'authentification, donc un simple
+ * `<a href>` ne suffit pas (pas d'en-tête Authorization sur une navigation).
+ * On récupère le fichier en JS puis on déclenche le téléchargement via une
+ * URL d'objet temporaire, sans jamais exposer le jeton dans l'URL elle-même.
+ */
+async function downloadFile(path: string, filename: string): Promise<void> {
+  const token = tokenStore.getAccess();
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+  } catch {
+    throw new ApiError(0, "networkError");
+  }
+  if (!res.ok) throw new ApiError(res.status, "genericError");
+
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 }
 
 export interface BibleBookView {
@@ -124,8 +161,62 @@ export const api = {
 
   me: () => request<UserProfile>("/users/me", { auth: true }),
 
-  updateProfile: (data: Partial<{ fullName: string; language: string; timezone: string }>) =>
-    request<UserProfile>("/users/me", { method: "PATCH", body: data, auth: true }),
+  updateProfile: (
+    data: Partial<{ fullName: string; language: string; timezone: string; preferredVersionCode: string }>,
+  ) => request<UserProfile>("/users/me", { method: "PATCH", body: data, auth: true }),
+
+  updateNotificationSettings: (data: Partial<NotificationSettings>) =>
+    request<UserProfile>("/users/me/notifications", { method: "PATCH", body: data, auth: true }),
 
   listBibleBooks: (lang: string) => request<BibleBookView[]>(`/bible/books?lang=${lang}`),
+
+  listBibleVersions: (lang?: string) =>
+    request<BibleVersion[]>(`/bible/versions${lang ? `?lang=${lang}` : ""}`),
+
+  // -- Plans de lecture (phase 2) -----------------------------------------
+
+  createPlan: (data: {
+    name?: string;
+    scopeType: ReadingScopeType;
+    bookCodes?: string[];
+    startDate: string;
+    endDate: string;
+  }) => request<ReadingPlanDetail>("/reading-plans", { method: "POST", body: data, auth: true }),
+
+  listPlans: () => request<ReadingPlanSummary[]>("/reading-plans", { auth: true }),
+
+  getPlan: (id: string) => request<ReadingPlanDetail>(`/reading-plans/${id}`, { auth: true }),
+
+  markRead: (
+    planId: string,
+    date: string,
+    chapters?: Array<{ bookCode: string; chapter: number }>,
+    durationSeconds?: number,
+  ) =>
+    request<ReadingPlanDetail>(`/reading-plans/${planId}/entries/${date}`, {
+      method: "PATCH",
+      body: { chapters, durationSeconds },
+      auth: true,
+    }),
+
+  recalculatePlan: (planId: string) =>
+    request<ReadingPlanDetail>(`/reading-plans/${planId}/recalculate`, { method: "POST", auth: true }),
+
+  exportPlanPdf: (planId: string, filename: string) =>
+    downloadFile(`/reading-plans/${planId}/export/pdf`, filename),
+
+  exportPlanXlsx: (planId: string, filename: string) =>
+    downloadFile(`/reading-plans/${planId}/export/xlsx`, filename),
+
+  // -- Dashboard (phase 3) -------------------------------------------------
+
+  getDashboard: () => request<DashboardSummary>("/dashboard", { auth: true }),
+
+  // -- Abonnements Web Push (phase 3) --------------------------------------
+
+  registerDevice: (subscription: { endpoint: string; keys: { p256dh: string; auth: string } }) =>
+    request<void>("/devices", { method: "POST", body: subscription, auth: true }),
+
+  unregisterDevice: (endpoint: string) =>
+    request<void>("/devices", { method: "DELETE", body: { endpoint }, auth: true }),
 };

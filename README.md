@@ -31,9 +31,25 @@ ce dépôt ; ce README documente ce qui est réellement implémenté.
 - [x] Recalcul du plan restant (l'historique passé — y compris les jours manqués — reste inchangé ;
       seuls les chapitres non lus sont redistribués à partir d'aujourd'hui)
 
-**Pas encore implémenté** (voir le cahier des charges pour le détail) : paramétrage des
-notifications, dashboard/séries de lecture, console admin, arabe (RTL) et bassa. La phase 2 ci-dessus
-est backend uniquement pour l'instant — pas encore d'écrans de création/suivi de plan côté frontend.
+**Phase 3 — engagement :**
+
+- [x] Dashboard personnel (série de lecture courante/record, chapitres lus, jours respectés/manqués/
+      partiels, répartition AT/NT, activité des 30 derniers jours, plans en cours et historique)
+- [x] Notifications SMS (Twilio), email (SMTP, phase 1) et Web Push (VAPID + service worker),
+      pilotées par un planificateur qui respecte l'heure de rappel, l'heure d'alerte de retard, les
+      heures calmes et le fuseau horaire de chacun, sans jamais renvoyer deux fois le même rappel
+- [x] Paramétrage des notifications (canaux, horaires, heures calmes, résumé hebdomadaire) et de la
+      version de lecture préférée, depuis l'écran de profil
+- [x] Interface arabe complète, RTL (`dir="rtl"` posé dynamiquement, mise en page en miroir)
+- [x] Écrans de création et de suivi des plans de lecture (calendrier à cases à cocher, recalcul)
+
+**Au-delà de la feuille de route initiale :**
+
+- [x] Export d'un plan de lecture en PDF ou Excel (calendrier complet, statuts, temps de lecture)
+- [x] Temps de lecture déclaré par l'utilisateur, en heures/minutes (voir la note ci-dessous sur ce
+      qui est mesurable ou non)
+
+**Pas encore implémenté** : console d'administration, bassa (traduction humaine non disponible).
 
 ## Structure du dépôt
 
@@ -45,7 +61,7 @@ smart-bible-reader/
 ├── packages/
 │   ├── shared-types/     # Types TypeScript partagés (DTO, enums) — sans étape de build
 │   ├── bible-data/       # Référentiel des 66 livres, noms FR/EN/ES/DE — sans étape de build
-│   └── locales/          # Fichiers de traduction (fr, en, es, de)
+│   └── locales/          # Fichiers de traduction (fr, en, es, de, ar) — bas à venir
 ├── docker-compose.yml    # MongoDB + Redis pour le développement local
 └── README.md
 ```
@@ -80,7 +96,7 @@ Le générateur de code OTP écrit les codes dans les **logs du serveur API** ta
 `SMS_TRANSPORT`/`EMAIL_TRANSPORT` valent `console` (valeur par défaut en développement) — pas besoin
 de compte Twilio/SendGrid pour tester le parcours d'inscription/connexion en local.
 
-- Frontend : http://localhost:3000 (redirige vers `/fr`, `/en`, `/es` ou `/de`)
+- Frontend : http://localhost:3000 (redirige vers `/fr`, `/en`, `/es`, `/de` ou `/ar`)
 - API : http://localhost:3001
 - Documentation API (Swagger) : http://localhost:3001/docs
 
@@ -96,17 +112,22 @@ de compte Twilio/SendGrid pour tester le parcours d'inscription/connexion en loc
 | `SECRETS_ENCRYPTION_KEY` | Clé AES-256 (hex, 32 octets) qui chiffre le secret TOTP au repos |
 | `OTP_TTL_SECONDS` / `OTP_MAX_ATTEMPTS` | Durée de vie et nombre d'essais d'un code OTP |
 | `TOTP_ISSUER` | Nom affiché dans l'application authenticator |
-| `SMS_TRANSPORT` | `console` (dev, log les messages) — fournisseur SMS réel toujours en attente (phase 3) |
-| `EMAIL_TRANSPORT` | `console` (dev) ou `smtp` (envoi réel via `nodemailer`, voir ci-dessous) |
-| `EMAIL_FROM` | Adresse d'expédition des emails envoyés (OTP, etc.) |
+| `SMS_TRANSPORT` | `console` (dev) ou `twilio` (envoi réel) |
+| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` / `TWILIO_FROM_NUMBER` | Identifiants Twilio, requis si `SMS_TRANSPORT=twilio` |
+| `EMAIL_TRANSPORT` | `console` (dev) ou `smtp` (envoi réel via `nodemailer`) |
+| `EMAIL_FROM` | Adresse d'expédition des emails envoyés (OTP, rappels, etc.) |
 | `SMTP_URL` | Chaîne de connexion complète (ex. `smtps://user:pass@host:465`) — si renseignée, prime sur les champs `SMTP_*` discrets |
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASSWORD` / `SMTP_TLS` | Paramètres SMTP discrets, utilisés si `SMTP_URL` est vide |
+| `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Clés Web Push (générer avec `npx web-push generate-vapid-keys`) |
+| `VAPID_CONTACT_EMAIL` | Contact `mailto:` requis par la spec Web Push |
+| `SCHEDULER_WINDOW_MINUTES` | Tolérance (minutes) autour de l'heure programmée d'un rappel — le job tourne toutes les 5 min |
 
 `apps/web/.env.local` :
 
 | Variable | Description |
 | --- | --- |
 | `NEXT_PUBLIC_API_URL` | URL de base de l'API backend |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | Doit être identique à `VAPID_PUBLIC_KEY` côté API (clé publique uniquement) |
 
 ## Scripts
 
@@ -115,7 +136,7 @@ npm run dev            # api + web en parallèle
 npm run dev:api        # api seule
 npm run dev:web        # web seule
 npm run seed:bible     # (ré)amorce le référentiel biblique
-npm test               # tests unitaires (apps/api : OTP, TOTP, chiffrement, référentiel biblique)
+npm test               # tests unitaires (apps/api : OTP, TOTP, chiffrement, plans, séries, planificateur…)
 npm run build          # build de production (apps/web uniquement pour l'instant, voir note ci-dessus)
 ```
 
@@ -128,9 +149,10 @@ npm run build          # build de production (apps/web uniquement pour l'instant
   Le secret TOTP est chiffré au repos (AES-256-GCM, voir `common/utils/crypto.util.ts`) ; les codes
   de secours et le mot de passe sont hashés avec `argon2`.
 - **Frontend** — Next.js (App Router) + `next-intl`. Chaque route est préfixée par la langue
-  (`/fr/login`, `/en/profile`…) ; le sélecteur de langue change le préfixe sans perdre l'écran
-  courant. La mise en page est prête pour le RTL (`dir` calculé dynamiquement) en prévision de
-  l'arabe, même si celui-ci n'est pas encore routable.
+  (`/fr/login`, `/en/profile`, `/ar/dashboard`…) ; le sélecteur de langue change le préfixe sans
+  perdre l'écran courant. L'arabe bascule `dir="rtl"` dynamiquement (mise en page en miroir, pas
+  seulement le texte) — les classes Tailwind physiques (`text-left`…) ont été remplacées par leurs
+  équivalents logiques (`text-start`) partout où c'était pertinent.
 - **Référentiel biblique** — `@sbr/bible-data` encode les 66 livres avec un garde-fou exécuté au
   chargement du module : le total doit faire exactement 1189 chapitres (929 AT + 260 NT), sans quoi
   le module lève une erreur plutôt que de laisser une donnée fausse circuler silencieusement.
@@ -146,6 +168,34 @@ npm run build          # build de production (apps/web uniquement pour l'instant
   l'utilisateur, avec repli sur sa langue d'interface. Les identifiants de version du catalogue de
   départ sont illustratifs — à confirmer avant production (voir le commentaire dans
   `bible-version-seed.data.ts`).
+- **Dashboard & séries** — `DashboardService` agrège plans et journal de lecture à la volée (pas de
+  vue matérialisée). La série de lecture (`streak.util.ts`, fonctions pures) se calcule sur les
+  *jours où un chapitre a réellement été marqué lu* (`readAt`), volontairement distincte des « jours
+  respectés » du planning : rattraper trois jours de retard en une seule session compte comme un jour
+  d'activité, pas trois — cohérent avec la sémantique habituelle d'un compteur de série.
+- **Planificateur de notifications** — `NotificationsSchedulerService` tourne toutes les 5 minutes
+  (`@nestjs/schedule`, pas de file BullMQ pour l'instant : complexité jugée disproportionnée par
+  rapport au besoin actuel — Redis reste disponible si une vraie file devient nécessaire à l'échelle).
+  Le calcul de ce qui est « dû » (`due-notifications.util.ts`) est entièrement pur — fuseau horaire,
+  heures calmes, fenêtre de tolérance, déduplication quotidienne/hebdomadaire — et testé sans horloge
+  réelle. Chaque envoi est journalisé (`notifications`) ; un canal en échec n'empêche jamais les
+  autres d'être tentés.
+- **Web Push** — abonnements par appareil (`devices`), service worker minimal (`apps/web/public/sw.js`)
+  et clés VAPID. Un abonnement expiré (410/404) est retiré silencieusement au prochain envoi plutôt
+  que de s'accumuler indéfiniment.
+- **Export PDF/Excel** — `reading-plans/export/`. Le PDF (`pdfkit`) et le classeur (`exceljs`)
+  partagent la même vue détaillée du plan. Différence assumée entre les deux formats : Excel affiche
+  les libellés dans la langue de l'utilisateur, arabe RTL inclus (le rendu du texte est délégué à
+  Excel/Sheets, aucun souci de police) ; le PDF, lui, dessine chaque glyphe via une police intégrée
+  sans caractères arabes ni moteur de réordonnancement bidirectionnel — il replie donc sur l'anglais
+  pour `ar` plutôt que d'afficher des carrés vides (voir `plan-export-labels.ts`).
+- **Temps de lecture** — saisie manuelle, pas de chronomètre : SBR ne contrôle pas la page de lecture
+  externe (§2.4), donc rien ne garantit qu'un chronométrage automatique (démarré à l'ouverture du
+  lien, arrêté au cochage) corresponde au temps de lecture réel — l'utilisateur peut très bien lire un
+  moment, s'interrompre, revenir plus tard. `ReadingDurationInput` (côté web) se contente donc de deux
+  champs heures/minutes que l'utilisateur remplit après coup ; la valeur validée s'additionne à celle
+  déjà enregistrée pour le jour (`readingDurationSeconds`) et remonte au dashboard
+  (`totalReadingTimeSeconds`).
 
 ## Licence
 

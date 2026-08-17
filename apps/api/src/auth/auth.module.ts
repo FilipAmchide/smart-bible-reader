@@ -22,6 +22,8 @@ import { NotificationSenderService } from "../common/messaging/notification-send
   ],
   controllers: [AuthController],
   providers: [AuthService, OtpService, TotpService, JwtStrategy, NotificationSenderService],
-  exports: [JwtStrategy, PassportModule],
+  // NotificationSenderService (SMS/email) est réexploité par NotificationsModule pour les
+  // rappels programmés — un seul provider, pas de double instanciation entre modules.
+  exports: [JwtStrategy, PassportModule, NotificationSenderService],
 })
 export class AuthModule {}

@@ -1,21 +1,23 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { createTransport, type Transporter } from "nodemailer";
+import { Twilio } from "twilio";
 import type { AppConfig } from "../../config/configuration";
 
 /**
  * Abstraction d'envoi sortant (SMS, email) utilisée par l'authentification
- * pour délivrer les codes OTP. En développement (transport "console"), le
- * message est simplement loggé — pratique pour tester le parcours OTP sans
- * compte fournisseur. Le SMS reste en attente d'un fournisseur réel (phase 3,
- * Twilio/Africa's Talking…) ; cette interface ne changera pas quand il sera
- * branché.
+ * pour délivrer les codes OTP, et réutilisée par le moteur de notifications
+ * (phase 3) pour les rappels/alertes. En développement (transport "console"),
+ * le message est simplement loggé — pratique pour tester sans compte
+ * fournisseur. Le Web Push, qui a besoin des abonnements par appareil, vit à
+ * part dans `notifications/web-push.service.ts` plutôt qu'ici.
  */
 @Injectable()
 export class NotificationSenderService {
   private readonly logger = new Logger(NotificationSenderService.name);
   private readonly config: AppConfig;
   private transporter?: Transporter;
+  private twilioClient?: Twilio;
 
   constructor(configService: ConfigService) {
     this.config = configService.get<AppConfig>("app")!;
@@ -26,8 +28,20 @@ export class NotificationSenderService {
       this.logger.log(`[SMS → ${to}] ${body}`);
       return;
     }
-    // TODO(phase 3): brancher un fournisseur réel (Twilio, Africa's Talking…)
-    this.logger.warn(`Transport SMS "provider" non implémenté — message non envoyé à ${to}.`);
+
+    try {
+      await this.getTwilioClient().messages.create({
+        to,
+        from: this.config.sms.fromNumber,
+        body,
+      });
+    } catch (err) {
+      // Même logique que l'email : un OTP qui n'arrive pas doit remonter à
+      // l'appelant plutôt que de laisser l'utilisateur bloqué sans le savoir.
+      const reason = err instanceof Error ? err.message : String(err);
+      this.logger.error(`Échec d'envoi de SMS Twilio à ${to} : ${reason}`);
+      throw err;
+    }
   }
 
   async sendEmail(to: string, subject: string, body: string): Promise<void> {
@@ -44,9 +58,6 @@ export class NotificationSenderService {
         text: body,
       });
     } catch (err) {
-      // On ne masque pas l'échec : un OTP qui n'arrive pas doit remonter à
-      // l'appelant (l'utilisateur reste bloqué sinon sans le savoir), voir
-      // AuthService.sendOtp qui laisse l'erreur se propager en 500.
       const reason = err instanceof Error ? err.message : String(err);
       this.logger.error(`Échec d'envoi d'email SMTP à ${to} : ${reason}`);
       throw err;
@@ -75,5 +86,19 @@ export class NotificationSenderService {
     }
 
     return this.transporter;
+  }
+
+  private getTwilioClient(): Twilio {
+    if (this.twilioClient) return this.twilioClient;
+
+    const { accountSid, authToken, fromNumber } = this.config.sms;
+    if (!accountSid || !authToken || !fromNumber) {
+      throw new Error(
+        'SMS_TRANSPORT="twilio" mais TWILIO_ACCOUNT_SID/TWILIO_AUTH_TOKEN/TWILIO_FROM_NUMBER ' +
+          "ne sont pas tous renseignés (voir .env.example).",
+      );
+    }
+    this.twilioClient = new Twilio(accountSid, authToken);
+    return this.twilioClient;
   }
 }
