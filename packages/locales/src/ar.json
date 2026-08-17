@@ -189,6 +189,89 @@
     "save": "حفظ",
     "saved": "تم حفظ التفضيلات"
   },
+  "admin": {
+    "accessDenied": "مقتصر على المسؤولين.",
+    "link": "لوحة الإدارة",
+    "nav": {
+      "users": "المستخدمون",
+      "stats": "الإحصاءات",
+      "broadcast": "الإعلانات",
+      "bibleVersions": "إصدارات الكتاب المقدس",
+      "auditLog": "سجل التدقيق"
+    },
+    "users": {
+      "title": "المستخدمون",
+      "search": "البحث بالاسم أو البريد الإلكتروني أو الهاتف…",
+      "filterLanguage": "اللغة",
+      "filterChannel": "قناة الإشعارات",
+      "allLanguages": "جميع اللغات",
+      "allChannels": "جميع القنوات",
+      "empty": "لا يوجد مستخدمون.",
+      "activePlans": "الخطط النشطة",
+      "lastRead": "آخر قراءة",
+      "never": "أبدًا",
+      "previous": "السابق",
+      "next": "التالي",
+      "pageInfo": "الصفحة {page} من {totalPages}",
+      "detail": {
+        "backToList": "العودة إلى المستخدمين",
+        "identity": "الهوية",
+        "settings": "إعدادات الإشعارات",
+        "plans": "خطط القراءة",
+        "noPlans": "لا توجد خطط."
+      }
+    },
+    "stats": {
+      "title": "إحصاءات المنصة",
+      "totalUsers": "المستخدمون",
+      "activeUsers": "نشطون (آخر 30 يومًا)",
+      "totalPlans": "خطط القراءة",
+      "avgCompletion": "متوسط الإنجاز",
+      "plansByScope": "الخطط حسب النطاق",
+      "notifications": "الإشعارات المرسلة",
+      "sent": "تم الإرسال",
+      "failed": "فشل"
+    },
+    "broadcast": {
+      "title": "إرسال إعلان",
+      "subject": "الموضوع",
+      "body": "الرسالة",
+      "language": "اللغة المستهدفة",
+      "allLanguages": "جميع اللغات",
+      "submit": "إرسال الإعلان",
+      "sending": "جارٍ الإرسال…",
+      "sent": "تم إرسال الإعلان إلى {count} مستخدم."
+    },
+    "bibleVersions": {
+      "title": "إصدارات الكتاب المقدس",
+      "code": "الرمز",
+      "language": "اللغة",
+      "name": "الاسم",
+      "provider": "المزوّد",
+      "linkTemplate": "قالب الرابط",
+      "linkTemplateHint": "استخدم {bookCode} و{chapter} كرموز.",
+      "active": "مفعّلة",
+      "inactive": "معطّلة",
+      "add": "إضافة إصدار",
+      "edit": "تعديل",
+      "disable": "تعطيل",
+      "enable": "تفعيل",
+      "saved": "تم حفظ الإصدار",
+      "empty": "لا توجد إصدارات."
+    },
+    "auditLog": {
+      "title": "سجل التدقيق",
+      "empty": "لا توجد إجراءات مسجّلة.",
+      "action": "الإجراء",
+      "admin": "المسؤول",
+      "date": "التاريخ",
+      "actions": {
+        "broadcast_send": "إرسال إعلان",
+        "bible_version_create": "إنشاء إصدار كتاب مقدس",
+        "bible_version_update": "تعديل إصدار كتاب مقدس"
+      }
+    }
+  },
   "errors": {
     "invalidIdentifier": "عنوان البريد الإلكتروني أو رقم الهاتف غير صالح.",
     "invalidCode": "رمز غير صالح أو منتهي الصلاحية.",

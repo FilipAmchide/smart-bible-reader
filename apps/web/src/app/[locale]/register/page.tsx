@@ -3,11 +3,13 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, ApiError } from "@/lib/api-client";
 
 export default function RegisterPage() {
   const t = useTranslations();
   const router = useRouter();
+  usePageTitle(t("auth.register.title"));
 
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");

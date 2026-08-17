@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, ApiError, tokenStore, type FirstFactorResult } from "@/lib/api-client";
 
 type Mode = "otp" | "password";
@@ -11,6 +12,7 @@ type Step = "form" | "otp" | "twoFactor";
 export default function LoginPage() {
   const t = useTranslations();
   const router = useRouter();
+  usePageTitle(t("auth.login.title"));
 
   const [mode, setMode] = useState<Mode>("otp");
   const [step, setStep] = useState<Step>("form");

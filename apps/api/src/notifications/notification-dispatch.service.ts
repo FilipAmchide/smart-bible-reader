@@ -41,7 +41,10 @@ export class NotificationDispatchService {
   ): Promise<void> {
     const jobs: Array<{ channel: NotificationChannel; run: () => Promise<void> }> = [];
 
-    if (user.notificationSettings.emailEnabled && user.email) {
+    // Une annonce admin (§2.3) reste joignable par email même si l'utilisateur
+    // a désactivé ce canal — c'est le "canal minimal" non désactivable prévu
+    // par le cahier des charges ; les autres types restent soumis à la préférence.
+    if ((user.notificationSettings.emailEnabled || type === "broadcast") && user.email) {
       jobs.push({ channel: "email", run: () => this.sender.sendEmail(user.email!, content.subject, content.body) });
     }
     if (user.notificationSettings.smsEnabled && user.phone) {

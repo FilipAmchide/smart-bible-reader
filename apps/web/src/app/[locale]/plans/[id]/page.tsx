@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { ReadingPlanDetail } from "@sbr/shared-types";
 import { Link, useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, ApiError, tokenStore } from "@/lib/api-client";
 import { EntryStatusBadge, PlanStatusBadge } from "@/components/plans/StatusBadge";
 import { ProgressBar } from "@/components/ProgressBar";
@@ -18,6 +19,7 @@ export default function PlanDetailPage() {
   const planId = params.id;
 
   const [plan, setPlan] = useState<ReadingPlanDetail | null>(null);
+  usePageTitle(plan?.name ?? t("plans.title"));
   const [error, setError] = useState<string | null>(null);
   const [recalculating, setRecalculating] = useState(false);
   const [pendingChapter, setPendingChapter] = useState<string | null>(null);

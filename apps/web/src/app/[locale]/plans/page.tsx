@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { ReadingPlanSummary } from "@sbr/shared-types";
 import { Link, useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, tokenStore } from "@/lib/api-client";
 import { PlanStatusBadge } from "@/components/plans/StatusBadge";
 import { ProgressBar } from "@/components/ProgressBar";
@@ -12,6 +13,7 @@ import { formatDurationCompact } from "@/lib/format-duration";
 export default function PlansListPage() {
   const t = useTranslations();
   const router = useRouter();
+  usePageTitle(t("plans.title"));
   const [plans, setPlans] = useState<ReadingPlanSummary[] | null>(null);
 
   useEffect(() => {

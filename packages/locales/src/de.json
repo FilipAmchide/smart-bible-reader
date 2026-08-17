@@ -189,6 +189,89 @@
     "save": "Speichern",
     "saved": "Einstellungen gespeichert"
   },
+  "admin": {
+    "accessDenied": "Nur für Administratoren.",
+    "link": "Admin-Konsole",
+    "nav": {
+      "users": "Benutzer",
+      "stats": "Statistiken",
+      "broadcast": "Ankündigungen",
+      "bibleVersions": "Bibelversionen",
+      "auditLog": "Prüfprotokoll"
+    },
+    "users": {
+      "title": "Benutzer",
+      "search": "Name, E-Mail, Telefon suchen…",
+      "filterLanguage": "Sprache",
+      "filterChannel": "Benachrichtigungskanal",
+      "allLanguages": "Alle Sprachen",
+      "allChannels": "Alle Kanäle",
+      "empty": "Keine Benutzer.",
+      "activePlans": "Aktive Pläne",
+      "lastRead": "Letzte Lesung",
+      "never": "Nie",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "pageInfo": "Seite {page} von {totalPages}",
+      "detail": {
+        "backToList": "Zurück zu den Benutzern",
+        "identity": "Identität",
+        "settings": "Benachrichtigungseinstellungen",
+        "plans": "Lesepläne",
+        "noPlans": "Keine Pläne."
+      }
+    },
+    "stats": {
+      "title": "Globale Statistiken",
+      "totalUsers": "Benutzer",
+      "activeUsers": "Aktiv (letzte 30 Tage)",
+      "totalPlans": "Lesepläne",
+      "avgCompletion": "Durchschnittlicher Abschluss",
+      "plansByScope": "Pläne nach Umfang",
+      "notifications": "Gesendete Benachrichtigungen",
+      "sent": "Gesendet",
+      "failed": "Fehlgeschlagen"
+    },
+    "broadcast": {
+      "title": "Ankündigung senden",
+      "subject": "Betreff",
+      "body": "Nachricht",
+      "language": "Zielsprache",
+      "allLanguages": "Alle Sprachen",
+      "submit": "Ankündigung senden",
+      "sending": "Wird gesendet…",
+      "sent": "Ankündigung an {count} Benutzer gesendet."
+    },
+    "bibleVersions": {
+      "title": "Bibelversionen",
+      "code": "Code",
+      "language": "Sprache",
+      "name": "Name",
+      "provider": "Anbieter",
+      "linkTemplate": "Link-Vorlage",
+      "linkTemplateHint": "Verwenden Sie {bookCode} und {chapter} als Platzhalter.",
+      "active": "Aktiv",
+      "inactive": "Deaktiviert",
+      "add": "Version hinzufügen",
+      "edit": "Bearbeiten",
+      "disable": "Deaktivieren",
+      "enable": "Aktivieren",
+      "saved": "Version gespeichert",
+      "empty": "Keine Bibelversionen."
+    },
+    "auditLog": {
+      "title": "Prüfprotokoll",
+      "empty": "Keine Aktionen protokolliert.",
+      "action": "Aktion",
+      "admin": "Administrator",
+      "date": "Datum",
+      "actions": {
+        "broadcast_send": "Ankündigung gesendet",
+        "bible_version_create": "Bibelversion erstellt",
+        "bible_version_update": "Bibelversion geändert"
+      }
+    }
+  },
   "errors": {
     "invalidIdentifier": "Ungültige E-Mail-Adresse oder Telefonnummer.",
     "invalidCode": "Ungültiger oder abgelaufener Code.",

@@ -4,6 +4,7 @@ import { Model } from "mongoose";
 import { bibleBooks } from "@sbr/bible-data";
 import type { DashboardActivityPoint, DashboardSummary, ReadingPlanSummary } from "@sbr/shared-types";
 import { addDaysUTC, formatDateOnly, todayUTC } from "../reading-plans/date-only.util";
+import { buildLogsByPlan, toReadingPlanSummary } from "../reading-plans/reading-plan-summary.util";
 import { effectiveEntryStatus } from "../reading-plans/schedule-status.util";
 import { ReadingLog, type ReadingLogDocument } from "../reading-plans/schemas/reading-log.schema";
 import { ReadingPlan, type ReadingPlanDocument } from "../reading-plans/schemas/reading-plan.schema";
@@ -55,28 +56,9 @@ export class DashboardService {
 
     const activity = this.buildActivity(logs, today);
 
-    const logsByPlan = new Map<string, number>();
-    for (const log of logs) {
-      const key = log.planId.toString();
-      logsByPlan.set(key, (logsByPlan.get(key) ?? 0) + 1);
-    }
-    const toSummary = (plan: ReadingPlanDocument): ReadingPlanSummary => {
-      const chaptersRead = logsByPlan.get(plan.id) ?? 0;
-      return {
-        id: plan.id,
-        name: plan.name,
-        scopeType: plan.scopeType,
-        startDate: formatDateOnly(plan.startDate),
-        endDate: formatDateOnly(plan.endDate),
-        status: plan.status,
-        progress: {
-          chaptersRead,
-          chaptersTotal: plan.totalChapters,
-          percent: plan.totalChapters ? Math.round((chaptersRead / plan.totalChapters) * 100) : 0,
-          readingTimeSeconds: plan.schedule.reduce((sum, entry) => sum + (entry.readingDurationSeconds ?? 0), 0),
-        },
-      };
-    };
+    const logsByPlan = buildLogsByPlan(logs);
+    const toSummary = (plan: ReadingPlanDocument): ReadingPlanSummary =>
+      toReadingPlanSummary(plan, logsByPlan.get(plan.id) ?? 0);
 
     return {
       streak,

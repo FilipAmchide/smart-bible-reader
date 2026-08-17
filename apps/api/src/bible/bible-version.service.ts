@@ -1,9 +1,19 @@
-import { Injectable, Logger, type OnModuleInit } from "@nestjs/common";
+import { BadRequestException, Injectable, Logger, NotFoundException, type OnModuleInit } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
+import type { FilterQuery } from "mongoose";
 import { Model } from "mongoose";
 import type { Language } from "@sbr/shared-types";
 import { bibleVersionSeed } from "./bible-version-seed.data";
 import { BibleVersion, type BibleVersionDocument } from "./schemas/bible-version.schema";
+
+export interface BibleVersionInput {
+  code: string;
+  language: Language;
+  name: string;
+  provider: string;
+  linkTemplate: string;
+  active?: boolean;
+}
 
 @Injectable()
 export class BibleVersionService implements OnModuleInit {
@@ -28,12 +38,37 @@ export class BibleVersionService implements OnModuleInit {
     return ops.length;
   }
 
-  findAll(lang?: Language): Promise<BibleVersionDocument[]> {
-    return this.versionModel.find(lang ? { language: lang } : {}).sort({ code: 1 });
+  /** `includeInactive` réservé à la console admin (§2.7) — la liste proposée aux
+   * utilisateurs (choix de version préférée, résolution de lien) reste toujours
+   * filtrée aux versions actives.
+   *
+   * `{ $ne: false }` plutôt que `{ active: true }` : les versions seedées avant
+   * l'introduction de ce champ n'ont pas `active` stocké en base (le défaut du
+   * schéma ne s'applique qu'à la lecture des documents déjà trouvés, jamais au
+   * filtre d'une requête Mongo) — un champ absent doit compter comme actif. */
+  findAll(lang?: Language, includeInactive = false): Promise<BibleVersionDocument[]> {
+    const filter: FilterQuery<BibleVersionDocument> = {};
+    if (lang) filter.language = lang;
+    if (!includeInactive) filter.active = { $ne: false };
+    return this.versionModel.find(filter).sort({ code: 1 });
   }
 
   findByCode(code: string): Promise<BibleVersionDocument | null> {
     return this.versionModel.findOne({ code });
+  }
+
+  async create(input: BibleVersionInput): Promise<BibleVersionDocument> {
+    const existing = await this.findByCode(input.code);
+    if (existing) throw new BadRequestException("Ce code de version existe déjà.");
+    return this.versionModel.create({ ...input, active: input.active ?? true });
+  }
+
+  async update(code: string, input: Partial<BibleVersionInput>): Promise<BibleVersionDocument> {
+    const version = await this.versionModel.findOne({ code });
+    if (!version) throw new NotFoundException("Version biblique introuvable.");
+    Object.assign(version, input);
+    await version.save();
+    return version;
   }
 
   /** Version à utiliser pour un utilisateur : sa préférence explicite, sinon

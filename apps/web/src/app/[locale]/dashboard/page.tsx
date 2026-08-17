@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { DashboardSummary } from "@sbr/shared-types";
 import { Link, useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, tokenStore } from "@/lib/api-client";
 import { PlanStatusBadge } from "@/components/plans/StatusBadge";
 import { ProgressBar } from "@/components/ProgressBar";
@@ -21,6 +22,7 @@ function StatCard({ label, value }: { label: string; value: string | number }) {
 export default function DashboardPage() {
   const t = useTranslations();
   const router = useRouter();
+  usePageTitle(t("dashboard.title"));
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
 
   useEffect(() => {

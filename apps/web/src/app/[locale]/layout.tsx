@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
@@ -10,6 +11,25 @@ import "../globals.css";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
+}
+
+/**
+ * Titre par défaut (onglet du navigateur avant hydratation, moteurs de
+ * recherche, aperçus de partage). Toutes les pages sont des composants client
+ * (voir plus bas) et affinent ensuite ce titre elles-mêmes via usePageTitle —
+ * le `template` ici ne s'applique qu'aux éventuelles pages qui exporteraient
+ * un jour leur propre `metadata.title` côté serveur.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const t = await getTranslations({ locale: params.locale, namespace: "common" });
+  return {
+    title: { default: t("appName"), template: `%s · ${t("appName")}` },
+    description: t("tagline"),
+  };
 }
 
 export default async function LocaleLayout({

@@ -9,6 +9,7 @@
     "start:prod": "ts-node -r tsconfig-paths/register --transpile-only src/main.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "seed:bible": "ts-node -r tsconfig-paths/register src/bible/seed/run-seed.ts",
+    "promote:admin": "ts-node -r tsconfig-paths/register src/users/scripts/promote-admin.ts",
     "lint": "eslint \"src/**/*.ts\"",
     "test": "jest"
   },

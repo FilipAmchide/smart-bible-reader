@@ -1,7 +1,17 @@
 import type {
+  AdminUserDetail,
+  AdminUserSummary,
+  AuditLogEntry,
   BibleVersion,
+  BibleVersionAdmin,
+  BroadcastRequest,
+  BroadcastResult,
   DashboardSummary,
+  Language,
+  NotificationChannel,
   NotificationSettings,
+  Paginated,
+  PlatformStats,
   ReadingPlanDetail,
   ReadingPlanSummary,
   ReadingScopeType,
@@ -219,4 +229,47 @@ export const api = {
 
   unregisterDevice: (endpoint: string) =>
     request<void>("/devices", { method: "DELETE", body: { endpoint }, auth: true }),
+
+  // -- Admin (phase 4) ------------------------------------------------------
+
+  adminListUsers: (params: {
+    search?: string;
+    language?: Language;
+    notificationChannel?: NotificationChannel;
+    page?: number;
+    pageSize?: number;
+  }) =>
+    request<Paginated<AdminUserSummary>>(`/admin/users${buildQuery(params)}`, { auth: true }),
+
+  adminGetUser: (id: string) => request<AdminUserDetail>(`/admin/users/${id}`, { auth: true }),
+
+  adminGetStats: () => request<PlatformStats>("/admin/stats", { auth: true }),
+
+  adminSendBroadcast: (dto: BroadcastRequest) =>
+    request<BroadcastResult>("/admin/broadcast", { method: "POST", body: dto, auth: true }),
+
+  adminListBibleVersions: () => request<BibleVersionAdmin[]>("/admin/bible-versions", { auth: true }),
+
+  adminCreateBibleVersion: (
+    dto: Pick<BibleVersionAdmin, "code" | "language" | "name" | "provider" | "linkTemplate">,
+  ) => request<BibleVersionAdmin>("/admin/bible-versions", { method: "POST", body: dto, auth: true }),
+
+  adminUpdateBibleVersion: (
+    code: string,
+    dto: Partial<Pick<BibleVersionAdmin, "name" | "provider" | "linkTemplate" | "active">>,
+  ) =>
+    request<BibleVersionAdmin>(`/admin/bible-versions/${code}`, { method: "PATCH", body: dto, auth: true }),
+
+  adminListAuditLog: (params: { action?: string; page?: number; pageSize?: number }) =>
+    request<Paginated<AuditLogEntry>>(`/admin/audit-log${buildQuery(params)}`, { auth: true }),
 };
+
+/** Sérialise les paramètres non vides d'une requête admin en query string. */
+function buildQuery(params: Record<string, string | number | undefined>): string {
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== "") search.set(key, String(value));
+  }
+  const qs = search.toString();
+  return qs ? `?${qs}` : "";
+}

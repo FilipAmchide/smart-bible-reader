@@ -3,11 +3,13 @@
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { tokenStore } from "@/lib/api-client";
 
 export default function HomePage() {
   const t = useTranslations();
   const router = useRouter();
+  usePageTitle(null);
 
   useEffect(() => {
     if (tokenStore.getAccess()) router.replace("/dashboard");

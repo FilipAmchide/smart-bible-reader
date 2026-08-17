@@ -5,11 +5,13 @@ import { useTranslations } from "next-intl";
 import type { ReadingScopeType } from "@sbr/shared-types";
 import { READING_SCOPE_TYPES } from "@sbr/shared-types";
 import { useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, ApiError, type BibleBookView } from "@/lib/api-client";
 
 export default function NewPlanPage() {
   const t = useTranslations();
   const router = useRouter();
+  usePageTitle(t("plans.create.title"));
 
   const [name, setName] = useState("");
   const [scopeType, setScopeType] = useState<ReadingScopeType>("new_testament");

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, ApiError } from "@/lib/api-client";
 
 /**
@@ -16,6 +17,7 @@ export default function VerifyOtpPage() {
   const t = useTranslations();
   const params = useSearchParams();
   const identifier = params.get("identifier") ?? "";
+  usePageTitle(t("auth.otp.title"));
 
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);

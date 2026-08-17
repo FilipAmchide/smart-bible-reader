@@ -189,6 +189,89 @@
     "save": "Save",
     "saved": "Preferences saved"
   },
+  "admin": {
+    "accessDenied": "Restricted to administrators.",
+    "link": "Admin console",
+    "nav": {
+      "users": "Users",
+      "stats": "Statistics",
+      "broadcast": "Announcements",
+      "bibleVersions": "Bible versions",
+      "auditLog": "Audit log"
+    },
+    "users": {
+      "title": "Users",
+      "search": "Search name, email, phone…",
+      "filterLanguage": "Language",
+      "filterChannel": "Notification channel",
+      "allLanguages": "All languages",
+      "allChannels": "All channels",
+      "empty": "No users.",
+      "activePlans": "Active plans",
+      "lastRead": "Last read",
+      "never": "Never",
+      "previous": "Previous",
+      "next": "Next",
+      "pageInfo": "Page {page} of {totalPages}",
+      "detail": {
+        "backToList": "Back to users",
+        "identity": "Identity",
+        "settings": "Notification settings",
+        "plans": "Reading plans",
+        "noPlans": "No plans."
+      }
+    },
+    "stats": {
+      "title": "Platform statistics",
+      "totalUsers": "Users",
+      "activeUsers": "Active (last 30 days)",
+      "totalPlans": "Reading plans",
+      "avgCompletion": "Average completion",
+      "plansByScope": "Plans by scope",
+      "notifications": "Notifications sent",
+      "sent": "Sent",
+      "failed": "Failed"
+    },
+    "broadcast": {
+      "title": "Send an announcement",
+      "subject": "Subject",
+      "body": "Message",
+      "language": "Target language",
+      "allLanguages": "All languages",
+      "submit": "Send announcement",
+      "sending": "Sending…",
+      "sent": "Announcement sent to {count} user(s)."
+    },
+    "bibleVersions": {
+      "title": "Bible versions",
+      "code": "Code",
+      "language": "Language",
+      "name": "Name",
+      "provider": "Provider",
+      "linkTemplate": "Link template",
+      "linkTemplateHint": "Use {bookCode} and {chapter} as tokens.",
+      "active": "Active",
+      "inactive": "Disabled",
+      "add": "Add a version",
+      "edit": "Edit",
+      "disable": "Disable",
+      "enable": "Enable",
+      "saved": "Version saved",
+      "empty": "No Bible versions."
+    },
+    "auditLog": {
+      "title": "Audit log",
+      "empty": "No actions recorded.",
+      "action": "Action",
+      "admin": "Administrator",
+      "date": "Date",
+      "actions": {
+        "broadcast_send": "Sent an announcement",
+        "bible_version_create": "Created a Bible version",
+        "bible_version_update": "Updated a Bible version"
+      }
+    }
+  },
   "errors": {
     "invalidIdentifier": "Invalid email address or phone number.",
     "invalidCode": "Invalid or expired code.",

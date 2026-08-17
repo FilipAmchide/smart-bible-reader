@@ -12,6 +12,7 @@ import { ReadingPlansModule } from "./reading-plans/reading-plans.module";
 import { DevicesModule } from "./devices/devices.module";
 import { NotificationsModule } from "./notifications/notifications.module";
 import { DashboardModule } from "./dashboard/dashboard.module";
+import { AdminModule } from "./admin/admin.module";
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DashboardModule } from "./dashboard/dashboard.module";
     DevicesModule,
     NotificationsModule,
     DashboardModule,
+    AdminModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

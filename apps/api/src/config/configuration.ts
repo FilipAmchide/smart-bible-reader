@@ -20,10 +20,20 @@ export interface AppConfig {
     issuer: string;
   };
   sms: {
-    transport: "console" | "twilio";
+    transport: "console" | "twilio" | "orange";
     accountSid: string;
     authToken: string;
     fromNumber: string;
+    /** API SMS Orange (https://developer.orange.com/apis/sms) — Cameroun au lancement. */
+    orange: {
+      clientId: string;
+      clientSecret: string;
+      /** Ex. "+2370000" pour le Cameroun (voir la liste des senderAddress par pays de l'API). */
+      senderAddress: string;
+      /** Doit être blanchi côté Orange au préalable, sinon l'envoi échoue en 400. */
+      senderName: string;
+      baseUrl: string;
+    };
   };
   email: {
     transport: "console" | "smtp";
@@ -72,10 +82,17 @@ export default (): { app: AppConfig } => ({
       issuer: process.env.TOTP_ISSUER ?? "Smart Bible Reader",
     },
     sms: {
-      transport: (process.env.SMS_TRANSPORT as "console" | "twilio") ?? "console",
+      transport: (process.env.SMS_TRANSPORT as "console" | "twilio" | "orange") ?? "console",
       accountSid: process.env.TWILIO_ACCOUNT_SID ?? "",
       authToken: process.env.TWILIO_AUTH_TOKEN ?? "",
       fromNumber: process.env.TWILIO_FROM_NUMBER ?? "",
+      orange: {
+        clientId: process.env.ORANGE_SMS_CLIENT_ID ?? "",
+        clientSecret: process.env.ORANGE_SMS_CLIENT_SECRET ?? "",
+        senderAddress: process.env.ORANGE_SMS_SENDER_ADDRESS ?? "+2370000",
+        senderName: process.env.ORANGE_SMS_SENDER_NAME ?? "",
+        baseUrl: process.env.ORANGE_SMS_BASE_URL ?? "https://api.orange.com",
+      },
     },
     email: {
       transport: (process.env.EMAIL_TRANSPORT as "console" | "smtp") ?? "console",

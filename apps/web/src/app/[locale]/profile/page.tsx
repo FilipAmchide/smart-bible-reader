@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { BibleVersion, UserProfile } from "@sbr/shared-types";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { api, ApiError, tokenStore } from "@/lib/api-client";
 import { locales, localeLabels, type AppLocale } from "@/i18n/config";
 import { TwoFactorPanel } from "@/components/profile/TwoFactorPanel";
@@ -12,6 +13,7 @@ import { NotificationSettingsPanel } from "@/components/profile/NotificationSett
 export default function ProfilePage() {
   const t = useTranslations();
   const router = useRouter();
+  usePageTitle(t("profile.title"));
 
   const [user, setUser] = useState<UserProfile | null>(null);
   const [fullName, setFullName] = useState("");
@@ -80,6 +82,15 @@ export default function ProfilePage() {
           {t("nav.logout")}
         </button>
       </div>
+
+      {user.role === "admin" && (
+        <Link
+          href="/admin/users"
+          className="block rounded-xl border border-accent/30 bg-accent/5 p-4 text-sm font-medium text-accent"
+        >
+          {t("admin.link")} →
+        </Link>
+      )}
 
       <section className="space-y-4 rounded-xl border border-slate-200 p-4">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">

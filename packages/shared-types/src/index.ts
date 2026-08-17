@@ -249,3 +249,73 @@ export interface PushSubscriptionPayload {
     auth: string;
   };
 }
+
+// ---------------------------------------------------------------------------
+// Administration (phase 4)
+// ---------------------------------------------------------------------------
+
+export interface Paginated<T> {
+  items: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface AdminUserSummary {
+  id: string;
+  fullName: string;
+  email?: string;
+  phone?: string;
+  role: Role;
+  language: Language;
+  createdAt: string;
+  activePlanCount: number;
+  lastReadAt?: string;
+}
+
+export interface AdminUserDetail extends AdminUserSummary {
+  timezone: string;
+  twoFAEnabled: boolean;
+  notificationSettings: NotificationSettings;
+  plans: ReadingPlanSummary[];
+}
+
+export interface PlatformStats {
+  totalUsers: number;
+  /** Utilisateurs ayant au moins une lecture journalisée dans les 30 derniers jours. */
+  activeUsers30d: number;
+  totalPlans: number;
+  /** Moyenne de `ReadingPlanProgress.percent` sur l'ensemble des plans. */
+  averageCompletionPercent: number;
+  plansByScope: Partial<Record<ReadingScopeType, number>>;
+  notificationsByChannel: Partial<Record<NotificationChannel, { sent: number; failed: number }>>;
+}
+
+export type AdminAuditAction = "broadcast.send" | "bible_version.create" | "bible_version.update";
+
+export interface AuditLogEntry {
+  id: string;
+  adminUserId: string;
+  adminFullName: string;
+  action: AdminAuditAction;
+  targetType: string;
+  targetId?: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+}
+
+/** `BibleVersion` + les champs réservés à la console admin (§2.7). */
+export interface BibleVersionAdmin extends BibleVersion {
+  active: boolean;
+}
+
+export interface BroadcastRequest {
+  subject: string;
+  body: string;
+  /** Non renseigné = tous les utilisateurs, quelle que soit leur langue d'interface. */
+  language?: Language;
+}
+
+export interface BroadcastResult {
+  recipientCount: number;
+}

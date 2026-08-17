@@ -189,6 +189,89 @@
     "save": "Enregistrer",
     "saved": "Préférences enregistrées"
   },
+  "admin": {
+    "accessDenied": "Accès réservé aux administrateurs.",
+    "link": "Console admin",
+    "nav": {
+      "users": "Utilisateurs",
+      "stats": "Statistiques",
+      "broadcast": "Annonces",
+      "bibleVersions": "Versions bibliques",
+      "auditLog": "Journal d'audit"
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "search": "Rechercher un nom, un email, un téléphone…",
+      "filterLanguage": "Langue",
+      "filterChannel": "Canal de notification",
+      "allLanguages": "Toutes les langues",
+      "allChannels": "Tous les canaux",
+      "empty": "Aucun utilisateur.",
+      "activePlans": "Plans actifs",
+      "lastRead": "Dernière lecture",
+      "never": "Jamais",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "pageInfo": "Page {page} sur {totalPages}",
+      "detail": {
+        "backToList": "Retour aux utilisateurs",
+        "identity": "Identité",
+        "settings": "Paramètres de notification",
+        "plans": "Plans de lecture",
+        "noPlans": "Aucun plan."
+      }
+    },
+    "stats": {
+      "title": "Statistiques globales",
+      "totalUsers": "Utilisateurs",
+      "activeUsers": "Actifs (30 derniers jours)",
+      "totalPlans": "Plans de lecture",
+      "avgCompletion": "Complétion moyenne",
+      "plansByScope": "Répartition des plans par périmètre",
+      "notifications": "Notifications envoyées",
+      "sent": "Envoyées",
+      "failed": "Échouées"
+    },
+    "broadcast": {
+      "title": "Diffuser une annonce",
+      "subject": "Sujet",
+      "body": "Message",
+      "language": "Langue ciblée",
+      "allLanguages": "Toutes les langues",
+      "submit": "Envoyer l'annonce",
+      "sending": "Envoi en cours…",
+      "sent": "Annonce envoyée à {count} utilisateur(s)."
+    },
+    "bibleVersions": {
+      "title": "Versions bibliques",
+      "code": "Code",
+      "language": "Langue",
+      "name": "Nom",
+      "provider": "Fournisseur",
+      "linkTemplate": "Gabarit de lien",
+      "linkTemplateHint": "Utilisez {bookCode} et {chapter} comme jetons.",
+      "active": "Active",
+      "inactive": "Désactivée",
+      "add": "Ajouter une version",
+      "edit": "Modifier",
+      "disable": "Désactiver",
+      "enable": "Réactiver",
+      "saved": "Version enregistrée",
+      "empty": "Aucune version biblique."
+    },
+    "auditLog": {
+      "title": "Journal d'audit",
+      "empty": "Aucune action enregistrée.",
+      "action": "Action",
+      "admin": "Administrateur",
+      "date": "Date",
+      "actions": {
+        "broadcast_send": "Diffusion d'une annonce",
+        "bible_version_create": "Création d'une version biblique",
+        "bible_version_update": "Modification d'une version biblique"
+      }
+    }
+  },
   "errors": {
     "invalidIdentifier": "Adresse email ou numéro de téléphone invalide.",
     "invalidCode": "Code invalide ou expiré.",
