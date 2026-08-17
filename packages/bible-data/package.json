@@ -1,0 +1,11 @@
+{
+  "name": "@sbr/bible-data",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Référentiel statique des 66 livres bibliques (découpage par chapitre, noms traduits FR/EN/ES/DE).",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@sbr/shared-types": "*"
+  }
+}

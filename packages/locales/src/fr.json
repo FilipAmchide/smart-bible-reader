@@ -1,0 +1,200 @@
+{
+  "common": {
+    "appName": "Smart Bible Reader",
+    "tagline": "Planifiez, tenez et suivez votre lecture de la Bible.",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "back": "Retour",
+    "loading": "Chargement…",
+    "comingSoon": "Bientôt disponible"
+  },
+  "languages": {
+    "fr": "Français",
+    "en": "Anglais",
+    "es": "Espagnol",
+    "de": "Allemand",
+    "ar": "Arabe",
+    "bas": "Bassa"
+  },
+  "nav": {
+    "profile": "Profil",
+    "plans": "Plans",
+    "dashboard": "Tableau de bord",
+    "logout": "Se déconnecter"
+  },
+  "auth": {
+    "register": {
+      "title": "Créer un compte",
+      "subtitle": "Un email ou un numéro de téléphone suffit pour commencer.",
+      "fullName": "Nom complet",
+      "identifier": "Email ou téléphone",
+      "password": "Mot de passe (optionnel)",
+      "passwordHint": "Sans mot de passe, vous vous connecterez uniquement par code à usage unique.",
+      "submit": "Créer mon compte",
+      "hasAccount": "Déjà un compte ?",
+      "login": "Se connecter"
+    },
+    "login": {
+      "title": "Se connecter",
+      "identifier": "Email ou téléphone",
+      "withOtp": "Recevoir un code",
+      "orDivider": "ou",
+      "password": "Mot de passe",
+      "withPassword": "Se connecter avec un mot de passe",
+      "noAccount": "Pas encore de compte ?",
+      "register": "Créer un compte"
+    },
+    "otp": {
+      "title": "Code de vérification",
+      "sentTo": "Un code a été envoyé à {identifier}",
+      "code": "Code à 6 chiffres",
+      "verify": "Vérifier",
+      "resend": "Renvoyer le code",
+      "resendIn": "Renvoyer dans {seconds}s",
+      "changeIdentifier": "Utiliser un autre identifiant"
+    },
+    "twoFactor": {
+      "title": "Vérification en deux étapes",
+      "subtitle": "Entrez le code généré par votre application authenticator.",
+      "code": "Code à 6 chiffres",
+      "verify": "Vérifier",
+      "useBackupCode": "Utiliser un code de secours",
+      "setupTitle": "Activer la double authentification",
+      "setupSubtitle": "Scannez ce code avec Google Authenticator, Authy ou une application équivalente.",
+      "manualEntry": "Ou saisissez cette clé manuellement",
+      "confirmCode": "Code de confirmation",
+      "enable": "Activer",
+      "backupCodesTitle": "Vos codes de secours",
+      "backupCodesHint": "Conservez ces codes en lieu sûr : ils ne s'afficheront qu'une seule fois.",
+      "backupCodesDone": "Je les ai enregistrés"
+    }
+  },
+  "profile": {
+    "title": "Mon profil",
+    "identity": "Identité",
+    "fullName": "Nom complet",
+    "email": "Email",
+    "phone": "Téléphone",
+    "language": "Langue de l'interface",
+    "timezone": "Fuseau horaire",
+    "preferredVersion": "Version de lecture préférée",
+    "security": "Sécurité",
+    "twoFactorEnabled": "Double authentification activée",
+    "twoFactorDisabled": "Double authentification désactivée",
+    "enable2fa": "Activer la double authentification",
+    "disable2fa": "Désactiver",
+    "changePassword": "Changer de mot de passe",
+    "saveChanges": "Enregistrer les modifications",
+    "saved": "Profil mis à jour"
+  },
+  "bible": {
+    "books": "Livres bibliques",
+    "oldTestament": "Ancien Testament",
+    "newTestament": "Nouveau Testament",
+    "chapters": "{count} chapitres"
+  },
+  "plans": {
+    "title": "Mes plans de lecture",
+    "newPlan": "Nouveau plan",
+    "empty": "Aucun plan de lecture pour l'instant.",
+    "backToList": "Retour aux plans",
+    "create": {
+      "title": "Créer un plan de lecture",
+      "name": "Nom du plan (optionnel)",
+      "namePlaceholder": "ex. Nouveau Testament en 90 jours",
+      "scope": "Périmètre",
+      "scopeOptions": {
+        "full_bible": "Bible entière",
+        "old_testament": "Ancien Testament",
+        "new_testament": "Nouveau Testament",
+        "prophets": "Les prophètes",
+        "psalms": "Psaumes",
+        "proverbs": "Proverbes",
+        "custom": "Sélection libre"
+      },
+      "pickBooks": "Choisir les livres",
+      "booksSelected": "{count} livre(s) sélectionné(s)",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "submit": "Créer le plan"
+    },
+    "status": {
+      "active": "Actif",
+      "completed": "Terminé",
+      "abandoned": "Abandonné"
+    },
+    "entryStatus": {
+      "pending": "À faire",
+      "partial": "Partiel",
+      "complete": "Terminé",
+      "rest": "Repos",
+      "missed": "Manqué"
+    },
+    "progress": "{percent} % terminé",
+    "timeSpent": "{duration} de lecture",
+    "chaptersOf": "{read} / {total} chapitres",
+    "recalculate": "Recalculer le plan",
+    "recalculating": "Recalcul en cours…",
+    "recalculated": "Plan recalculé",
+    "readOnline": "Lire en ligne",
+    "markRead": "Marquer comme lu",
+    "today": "Aujourd'hui",
+    "export": {
+      "pdf": "Télécharger en PDF",
+      "xlsx": "Télécharger en Excel",
+      "downloading": "Téléchargement…"
+    },
+    "duration": {
+      "label": "Temps de lecture",
+      "hours": "h",
+      "minutes": "min",
+      "save": "Enregistrer",
+      "saved": "Enregistré"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "streakCurrent": "Série actuelle",
+    "streakRecord": "Record",
+    "days": "jours",
+    "totalChaptersRead": "Chapitres lus au total",
+    "totalReadingTime": "Temps de lecture total",
+    "daysComplete": "Jours respectés",
+    "daysMissed": "Jours manqués",
+    "daysPartial": "Jours partiels",
+    "testamentSplit": "Ancien / Nouveau Testament",
+    "activity": "Activité (30 derniers jours)",
+    "activePlans": "Plans en cours",
+    "pastPlans": "Historique des plans",
+    "noPlans": "Aucun plan pour l'instant.",
+    "createFirstPlan": "Créer mon premier plan"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "channels": "Canaux",
+    "sms": "SMS",
+    "email": "Email",
+    "webPush": "Notifications navigateur",
+    "enablePush": "Activer sur cet appareil",
+    "disablePush": "Désactiver sur cet appareil",
+    "pushEnabled": "Notifications activées sur cet appareil",
+    "pushUnsupported": "Non pris en charge par ce navigateur",
+    "dailyReminderTime": "Heure du rappel quotidien",
+    "lateAlertTime": "Heure de l'alerte de retard",
+    "quietHours": "Heures calmes",
+    "quietHoursFrom": "De",
+    "quietHoursTo": "à",
+    "weeklySummary": "Résumé hebdomadaire",
+    "save": "Enregistrer",
+    "saved": "Préférences enregistrées"
+  },
+  "errors": {
+    "invalidIdentifier": "Adresse email ou numéro de téléphone invalide.",
+    "invalidCode": "Code invalide ou expiré.",
+    "invalidCredentials": "Identifiant ou mot de passe incorrect.",
+    "identifierTaken": "Cet email ou ce téléphone est déjà utilisé.",
+    "genericError": "Une erreur est survenue. Réessayez.",
+    "networkError": "Impossible de contacter le serveur."
+  }
+}
