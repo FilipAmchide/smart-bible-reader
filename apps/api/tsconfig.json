@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2021",
+    "lib": ["ES2021"],
+    "declaration": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@sbr/shared-types": ["../../packages/shared-types/src/index.ts"],
+      "@sbr/bible-data": ["../../packages/bible-data/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "../../packages/shared-types/src/**/*.ts", "../../packages/bible-data/src/**/*.ts"]
+}

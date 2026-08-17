@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# build output
+dist/
+build/
+.next/
+out/
+
+# env
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# tests / coverage
+coverage/
+
+# editors / OS
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/

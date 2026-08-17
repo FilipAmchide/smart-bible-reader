@@ -1,0 +1,102 @@
+{
+  "common": {
+    "appName": "Smart Bible Reader",
+    "tagline": "Planifica, mantén y sigue tu lectura de la Biblia.",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "back": "Atrás",
+    "loading": "Cargando…",
+    "comingSoon": "Próximamente"
+  },
+  "languages": {
+    "fr": "Francés",
+    "en": "Inglés",
+    "es": "Español",
+    "de": "Alemán",
+    "ar": "Árabe",
+    "bas": "Basaa"
+  },
+  "nav": {
+    "profile": "Perfil",
+    "logout": "Cerrar sesión"
+  },
+  "auth": {
+    "register": {
+      "title": "Crear una cuenta",
+      "subtitle": "Basta un correo o un número de teléfono para empezar.",
+      "fullName": "Nombre completo",
+      "identifier": "Correo o teléfono",
+      "password": "Contraseña (opcional)",
+      "passwordHint": "Sin contraseña, iniciarás sesión solo con un código de un solo uso.",
+      "submit": "Crear mi cuenta",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "login": "Iniciar sesión"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "identifier": "Correo o teléfono",
+      "withOtp": "Recibir un código",
+      "orDivider": "o",
+      "password": "Contraseña",
+      "withPassword": "Iniciar sesión con contraseña",
+      "noAccount": "¿Aún no tienes cuenta?",
+      "register": "Crear una cuenta"
+    },
+    "otp": {
+      "title": "Código de verificación",
+      "sentTo": "Se envió un código a {identifier}",
+      "code": "Código de 6 dígitos",
+      "verify": "Verificar",
+      "resend": "Reenviar código",
+      "resendIn": "Reenviar en {seconds}s",
+      "changeIdentifier": "Usar otro identificador"
+    },
+    "twoFactor": {
+      "title": "Verificación en dos pasos",
+      "subtitle": "Introduce el código generado por tu aplicación authenticator.",
+      "code": "Código de 6 dígitos",
+      "verify": "Verificar",
+      "useBackupCode": "Usar un código de respaldo",
+      "setupTitle": "Activar la autenticación de dos factores",
+      "setupSubtitle": "Escanea este código con Google Authenticator, Authy u otra app similar.",
+      "manualEntry": "O introduce esta clave manualmente",
+      "confirmCode": "Código de confirmación",
+      "enable": "Activar",
+      "backupCodesTitle": "Tus códigos de respaldo",
+      "backupCodesHint": "Guárdalos en un lugar seguro: solo se mostrarán una vez.",
+      "backupCodesDone": "Ya los guardé"
+    }
+  },
+  "profile": {
+    "title": "Mi perfil",
+    "identity": "Identidad",
+    "fullName": "Nombre completo",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "language": "Idioma de la interfaz",
+    "timezone": "Zona horaria",
+    "security": "Seguridad",
+    "twoFactorEnabled": "Autenticación de dos factores activada",
+    "twoFactorDisabled": "Autenticación de dos factores desactivada",
+    "enable2fa": "Activar la autenticación de dos factores",
+    "disable2fa": "Desactivar",
+    "changePassword": "Cambiar contraseña",
+    "saveChanges": "Guardar cambios",
+    "saved": "Perfil actualizado"
+  },
+  "bible": {
+    "books": "Libros bíblicos",
+    "oldTestament": "Antiguo Testamento",
+    "newTestament": "Nuevo Testamento",
+    "chapters": "{count} capítulos"
+  },
+  "errors": {
+    "invalidIdentifier": "Correo electrónico o número de teléfono inválido.",
+    "invalidCode": "Código inválido o expirado.",
+    "invalidCredentials": "Identificador o contraseña incorrectos.",
+    "identifierTaken": "Este correo o teléfono ya está en uso.",
+    "genericError": "Ocurrió un error. Inténtalo de nuevo.",
+    "networkError": "No se pudo contactar con el servidor."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@sbr/shared-types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Types TypeScript partagés entre le frontend et le backend de Smart Bible Reader.",
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}

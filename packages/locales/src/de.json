@@ -1,0 +1,102 @@
+{
+  "common": {
+    "appName": "Smart Bible Reader",
+    "tagline": "Planen, einhalten und verfolgen Sie Ihre Bibellese.",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "continue": "Weiter",
+    "back": "Zurück",
+    "loading": "Wird geladen…",
+    "comingSoon": "Demnächst verfügbar"
+  },
+  "languages": {
+    "fr": "Französisch",
+    "en": "Englisch",
+    "es": "Spanisch",
+    "de": "Deutsch",
+    "ar": "Arabisch",
+    "bas": "Basaa"
+  },
+  "nav": {
+    "profile": "Profil",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "register": {
+      "title": "Konto erstellen",
+      "subtitle": "E-Mail oder Telefonnummer genügen zum Start.",
+      "fullName": "Vollständiger Name",
+      "identifier": "E-Mail oder Telefon",
+      "password": "Passwort (optional)",
+      "passwordHint": "Ohne Passwort melden Sie sich nur per Einmalcode an.",
+      "submit": "Konto erstellen",
+      "hasAccount": "Bereits ein Konto?",
+      "login": "Anmelden"
+    },
+    "login": {
+      "title": "Anmelden",
+      "identifier": "E-Mail oder Telefon",
+      "withOtp": "Code anfordern",
+      "orDivider": "oder",
+      "password": "Passwort",
+      "withPassword": "Mit Passwort anmelden",
+      "noAccount": "Noch kein Konto?",
+      "register": "Konto erstellen"
+    },
+    "otp": {
+      "title": "Bestätigungscode",
+      "sentTo": "Ein Code wurde an {identifier} gesendet",
+      "code": "6-stelliger Code",
+      "verify": "Bestätigen",
+      "resend": "Code erneut senden",
+      "resendIn": "Erneut senden in {seconds}s",
+      "changeIdentifier": "Andere Kennung verwenden"
+    },
+    "twoFactor": {
+      "title": "Zweistufige Verifizierung",
+      "subtitle": "Geben Sie den Code aus Ihrer Authenticator-App ein.",
+      "code": "6-stelliger Code",
+      "verify": "Bestätigen",
+      "useBackupCode": "Backup-Code verwenden",
+      "setupTitle": "Zwei-Faktor-Authentifizierung aktivieren",
+      "setupSubtitle": "Scannen Sie diesen Code mit Google Authenticator, Authy oder einer ähnlichen App.",
+      "manualEntry": "Oder geben Sie diesen Schlüssel manuell ein",
+      "confirmCode": "Bestätigungscode",
+      "enable": "Aktivieren",
+      "backupCodesTitle": "Ihre Backup-Codes",
+      "backupCodesHint": "Bewahren Sie diese sicher auf: Sie werden nur einmal angezeigt.",
+      "backupCodesDone": "Ich habe sie gespeichert"
+    }
+  },
+  "profile": {
+    "title": "Mein Profil",
+    "identity": "Identität",
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "language": "Sprache der Oberfläche",
+    "timezone": "Zeitzone",
+    "security": "Sicherheit",
+    "twoFactorEnabled": "Zwei-Faktor-Authentifizierung aktiviert",
+    "twoFactorDisabled": "Zwei-Faktor-Authentifizierung deaktiviert",
+    "enable2fa": "Zwei-Faktor-Authentifizierung aktivieren",
+    "disable2fa": "Deaktivieren",
+    "changePassword": "Passwort ändern",
+    "saveChanges": "Änderungen speichern",
+    "saved": "Profil aktualisiert"
+  },
+  "bible": {
+    "books": "Biblische Bücher",
+    "oldTestament": "Altes Testament",
+    "newTestament": "Neues Testament",
+    "chapters": "{count} Kapitel"
+  },
+  "errors": {
+    "invalidIdentifier": "Ungültige E-Mail-Adresse oder Telefonnummer.",
+    "invalidCode": "Ungültiger oder abgelaufener Code.",
+    "invalidCredentials": "Falsche Kennung oder falsches Passwort.",
+    "identifierTaken": "Diese E-Mail oder Telefonnummer wird bereits verwendet.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "networkError": "Der Server konnte nicht erreicht werden."
+  }
+}

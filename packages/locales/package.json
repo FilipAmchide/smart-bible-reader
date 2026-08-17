@@ -1,0 +1,6 @@
+{
+  "name": "@sbr/locales",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fichiers de traduction de l'interface Smart Bible Reader. Couverture phase 1 : fr, en, es, de. ar et bas suivront."
+}
