@@ -1,7 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { createTransport, type Transporter } from "nodemailer";
-import { Twilio } from "twilio";
 import type { AppConfig } from "../../config/configuration";
 
 /**
@@ -17,7 +16,6 @@ export class NotificationSenderService {
   private readonly logger = new Logger(NotificationSenderService.name);
   private readonly config: AppConfig;
   private transporter?: Transporter;
-  private twilioClient?: Twilio;
   /** Jeton OAuth2 Orange, valable ~1h (voir getOrangeAccessToken) — réutilisé
    * entre appels plutôt que régénéré à chaque SMS. */
   private orangeToken?: { accessToken: string; expiresAt: number };
@@ -33,15 +31,7 @@ export class NotificationSenderService {
     }
 
     try {
-      if (this.config.sms.transport === "orange") {
-        await this.sendOrangeSms(to, body);
-      } else {
-        await this.getTwilioClient().messages.create({
-          to,
-          from: this.config.sms.fromNumber,
-          body,
-        });
-      }
+      await this.sendOrangeSms(to, body);
     } catch (err) {
       // Même logique que l'email : un OTP qui n'arrive pas doit remonter à
       // l'appelant plutôt que de laisser l'utilisateur bloqué sans le savoir.
@@ -93,20 +83,6 @@ export class NotificationSenderService {
     }
 
     return this.transporter;
-  }
-
-  private getTwilioClient(): Twilio {
-    if (this.twilioClient) return this.twilioClient;
-
-    const { accountSid, authToken, fromNumber } = this.config.sms;
-    if (!accountSid || !authToken || !fromNumber) {
-      throw new Error(
-        'SMS_TRANSPORT="twilio" mais TWILIO_ACCOUNT_SID/TWILIO_AUTH_TOKEN/TWILIO_FROM_NUMBER ' +
-          "ne sont pas tous renseignés (voir .env.example).",
-      );
-    }
-    this.twilioClient = new Twilio(accountSid, authToken);
-    return this.twilioClient;
   }
 
   /**
