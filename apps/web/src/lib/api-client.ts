@@ -55,7 +55,48 @@ interface RequestOptions {
   auth?: boolean;
 }
 
-async function request<T>(path: string, { method = "GET", body, auth = false }: RequestOptions = {}): Promise<T> {
+/**
+ * Rafraîchissement silencieux du access token via le refresh token stocké.
+ * Un seul appel réseau à la fois même si plusieurs requêtes échouent en 401
+ * en parallèle (single-flight) — l'API fait tourner le refresh token à
+ * chaque appel, un doublon invaliderait le premier.
+ *
+ * Tant que ce refresh réussit (refresh token non expiré), la session ne
+ * meurt jamais toute seule : seul un appel explicite à tokenStore.clear()
+ * (bouton "se déconnecter") y met fin. Voir JWT_REFRESH_TTL dans
+ * apps/api/.env.example pour la durée réelle avant expiration forcée.
+ */
+let refreshPromise: Promise<boolean> | null = null;
+
+function refreshAccessToken(): Promise<boolean> {
+  const refreshToken = tokenStore.getRefresh();
+  if (!refreshToken) return Promise.resolve(false);
+
+  if (!refreshPromise) {
+    refreshPromise = fetch(`${API_URL}/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken }),
+    })
+      .then(async (res) => {
+        if (!res.ok) return false;
+        const tokens = (await res.json()) as TokenPair;
+        tokenStore.set(tokens.accessToken, tokens.refreshToken);
+        return true;
+      })
+      .catch(() => false)
+      .finally(() => {
+        refreshPromise = null;
+      });
+  }
+  return refreshPromise;
+}
+
+async function request<T>(
+  path: string,
+  { method = "GET", body, auth = false }: RequestOptions = {},
+  retried = false,
+): Promise<T> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (auth) {
     const token = tokenStore.getAccess();
@@ -73,7 +114,15 @@ async function request<T>(path: string, { method = "GET", body, auth = false }: 
     throw new ApiError(0, "networkError");
   }
 
+  // Access token expiré (15 min) : on tente un refresh silencieux une seule
+  // fois puis on rejoue la requête, plutôt que de faire échouer l'appel et
+  // pousser l'utilisateur vers /login pour une session encore valide.
+  if (res.status === 401 && auth && !retried && (await refreshAccessToken())) {
+    return request<T>(path, { method, body, auth }, true);
+  }
+
   if (!res.ok) {
+    if (res.status === 401 && auth) tokenStore.clear();
     const payload = await res.json().catch(() => ({}));
     throw new ApiError(res.status, payload.message ?? "genericError");
   }
@@ -99,7 +148,7 @@ export interface FirstFactorResult {
  * On récupère le fichier en JS puis on déclenche le téléchargement via une
  * URL d'objet temporaire, sans jamais exposer le jeton dans l'URL elle-même.
  */
-async function downloadFile(path: string, filename: string): Promise<void> {
+async function downloadFile(path: string, filename: string, retried = false): Promise<void> {
   const token = tokenStore.getAccess();
   let res: Response;
   try {
@@ -109,7 +158,14 @@ async function downloadFile(path: string, filename: string): Promise<void> {
   } catch {
     throw new ApiError(0, "networkError");
   }
-  if (!res.ok) throw new ApiError(res.status, "genericError");
+
+  if (res.status === 401 && !retried && (await refreshAccessToken())) {
+    return downloadFile(path, filename, true);
+  }
+  if (!res.ok) {
+    if (res.status === 401) tokenStore.clear();
+    throw new ApiError(res.status, "genericError");
+  }
 
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);

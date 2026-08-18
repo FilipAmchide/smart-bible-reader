@@ -20,10 +20,7 @@ export interface AppConfig {
     issuer: string;
   };
   sms: {
-    transport: "console" | "twilio" | "orange";
-    accountSid: string;
-    authToken: string;
-    fromNumber: string;
+    transport: "console" | "orange";
     /** API SMS Orange (https://developer.orange.com/apis/sms) — Cameroun au lancement. */
     orange: {
       clientId: string;
@@ -67,7 +64,11 @@ export default (): { app: AppConfig } => ({
       accessSecret: process.env.JWT_ACCESS_SECRET ?? "dev-access-secret",
       accessTtl: process.env.JWT_ACCESS_TTL ?? "15m",
       refreshSecret: process.env.JWT_REFRESH_SECRET ?? "dev-refresh-secret",
-      refreshTtl: process.env.JWT_REFRESH_TTL ?? "30d",
+      // Longue durée par défaut : combiné au rafraîchissement silencieux côté
+      // frontend (voir apps/web/src/lib/api-client.ts), la session ne meurt
+      // que si l'utilisateur se déconnecte explicitement ou reste inactif
+      // plus longtemps que cette valeur.
+      refreshTtl: process.env.JWT_REFRESH_TTL ?? "730d",
       pre2faSecret: process.env.JWT_PRE_2FA_SECRET ?? "dev-pre-2fa-secret",
       pre2faTtl: process.env.JWT_PRE_2FA_TTL ?? "5m",
     },
@@ -82,10 +83,7 @@ export default (): { app: AppConfig } => ({
       issuer: process.env.TOTP_ISSUER ?? "Smart Bible Reader",
     },
     sms: {
-      transport: (process.env.SMS_TRANSPORT as "console" | "twilio" | "orange") ?? "console",
-      accountSid: process.env.TWILIO_ACCOUNT_SID ?? "",
-      authToken: process.env.TWILIO_AUTH_TOKEN ?? "",
-      fromNumber: process.env.TWILIO_FROM_NUMBER ?? "",
+      transport: (process.env.SMS_TRANSPORT as "console" | "orange") ?? "console",
       orange: {
         clientId: process.env.ORANGE_SMS_CLIENT_ID ?? "",
         clientSecret: process.env.ORANGE_SMS_CLIENT_SECRET ?? "",

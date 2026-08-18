@@ -35,7 +35,7 @@ ce dépôt ; ce README documente ce qui est réellement implémenté.
 
 - [x] Dashboard personnel (série de lecture courante/record, chapitres lus, jours respectés/manqués/
       partiels, répartition AT/NT, activité des 30 derniers jours, plans en cours et historique)
-- [x] Notifications SMS (Twilio), email (SMTP, phase 1) et Web Push (VAPID + service worker),
+- [x] Notifications SMS (Orange), email (SMTP, phase 1) et Web Push (VAPID + service worker),
       pilotées par un planificateur qui respecte l'heure de rappel, l'heure d'alerte de retard, les
       heures calmes et le fuseau horaire de chacun, sans jamais renvoyer deux fois le même rappel
 - [x] Paramétrage des notifications (canaux, horaires, heures calmes, résumé hebdomadaire) et de la
@@ -94,7 +94,7 @@ npm run dev                   # lance apps/api (:3001) et apps/web (:3000) en pa
 
 Le générateur de code OTP écrit les codes dans les **logs du serveur API** tant que
 `SMS_TRANSPORT`/`EMAIL_TRANSPORT` valent `console` (valeur par défaut en développement) — pas besoin
-de compte Twilio/SendGrid pour tester le parcours d'inscription/connexion en local.
+de compte Orange/SendGrid pour tester le parcours d'inscription/connexion en local.
 
 - Frontend : http://localhost:3000 (redirige vers `/fr`, `/en`, `/es`, `/de` ou `/ar`)
 - API : http://localhost:3001
@@ -112,8 +112,9 @@ de compte Twilio/SendGrid pour tester le parcours d'inscription/connexion en loc
 | `SECRETS_ENCRYPTION_KEY` | Clé AES-256 (hex, 32 octets) qui chiffre le secret TOTP au repos |
 | `OTP_TTL_SECONDS` / `OTP_MAX_ATTEMPTS` | Durée de vie et nombre d'essais d'un code OTP |
 | `TOTP_ISSUER` | Nom affiché dans l'application authenticator |
-| `SMS_TRANSPORT` | `console` (dev) ou `twilio` (envoi réel) |
-| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` / `TWILIO_FROM_NUMBER` | Identifiants Twilio, requis si `SMS_TRANSPORT=twilio` |
+| `SMS_TRANSPORT` | `console` (dev) ou `orange` (envoi réel) |
+| `ORANGE_SMS_CLIENT_ID` / `ORANGE_SMS_CLIENT_SECRET` | Identifiants OAuth2 API SMS Orange, requis si `SMS_TRANSPORT=orange` |
+| `ORANGE_SMS_SENDER_ADDRESS` / `ORANGE_SMS_SENDER_NAME` | Expéditeur imposé par pays (ex. `+2370000` au Cameroun) / nom d'expéditeur blanchi côté Orange |
 | `EMAIL_TRANSPORT` | `console` (dev) ou `smtp` (envoi réel via `nodemailer`) |
 | `EMAIL_FROM` | Adresse d'expédition des emails envoyés (OTP, rappels, etc.) |
 | `SMTP_URL` | Chaîne de connexion complète (ex. `smtps://user:pass@host:465`) — si renseignée, prime sur les champs `SMTP_*` discrets |
