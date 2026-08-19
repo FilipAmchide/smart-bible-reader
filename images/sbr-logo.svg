@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Smart Bible Reader">
+  <title>Smart Bible Reader</title>
+  <path d="M128 60 C104 44 72 44 52 54 L52 178 C72 168 104 168 128 184 C152 168 184 168 204 178 L204 54 C184 44 152 44 128 60 Z"
+        fill="#ffffff" stroke="#2f5c9e" stroke-width="11" stroke-linejoin="round"/>
+  <line x1="128" y1="60" x2="128" y2="184" stroke="#2f5c9e" stroke-width="11" stroke-linecap="round"/>
+  <line x1="72"  y1="82"  x2="108" y2="76"  stroke="#8fb0dd" stroke-width="9" stroke-linecap="round"/>
+  <line x1="72"  y1="104" x2="108" y2="98"  stroke="#8fb0dd" stroke-width="9" stroke-linecap="round"/>
+  <line x1="148" y1="76"  x2="184" y2="82"  stroke="#8fb0dd" stroke-width="9" stroke-linecap="round"/>
+  <line x1="148" y1="98"  x2="184" y2="104" stroke="#8fb0dd" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="128" cy="184" r="40" fill="#2f5c9e"/>
+  <path d="M110 184 L123 197 L147 171" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

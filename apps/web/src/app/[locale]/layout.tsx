@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
@@ -29,8 +29,24 @@ export async function generateMetadata({
   return {
     title: { default: t("appName"), template: `%s · ${t("appName")}` },
     description: t("tagline"),
+    manifest: "/manifest.webmanifest",
+    icons: {
+      icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+        { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      ],
+      shortcut: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
   };
 }
+
+// Séparé de generateMetadata depuis Next 14 (avertissement de dépréciation
+// sinon) : couleur de la barre d'adresse mobile / de la barre de statut PWA.
+export const viewport: Viewport = {
+  themeColor: "#2f5c9e",
+};
 
 export default async function LocaleLayout({
   children,
@@ -54,7 +70,11 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <header className="border-b border-slate-200">
             <div className="mx-auto flex max-w-md items-center justify-between px-4 py-3 sm:max-w-2xl">
-              <span className="font-semibold text-accent">{t("appName")}</span>
+              <span className="flex items-center gap-2 font-semibold text-accent">
+                {/* eslint-disable-next-line @next/next/no-img-element -- SVG statique, next/image n'apporte rien ici */}
+                <img src="/logo.svg" alt="" width={28} height={28} className="h-7 w-7" />
+                {t("appName")}
+              </span>
               <LanguageSwitcher current={locale as AppLocale} />
             </div>
           </header>
